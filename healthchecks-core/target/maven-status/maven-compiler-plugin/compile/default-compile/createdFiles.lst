@@ -1,0 +1,5 @@
+nz\govt\nzqa\healthchecks\registry\HealthChecksRegistrar.class
+nz\govt\nzqa\healthchecks\library\DatabaseHealthCheck.class
+nz\govt\nzqa\healthchecks\resource\Database.class
+nz\govt\nzqa\healthchecks\web\HealthCheckServletListener.class
+nz\govt\nzqa\healthchecks\App.class

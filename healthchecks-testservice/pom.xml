@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>healthchecks-parent</artifactId>
+        <groupId>nz.govt.nzqa.healthchecks</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>healthchecks-testservice</artifactId>
+    <name>Health Checks - Test Service</name>
+    <packaging>war</packaging>
+
+    <properties>
+        <cargo.servlet.port>7090</cargo.servlet.port>
+        <cargo.rmi.port>7019</cargo.rmi.port>
+        <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>
+    </properties>
+
+    <dependencies>
+
+        <!-- NZQA HealthChecks Core Library -->
+        <dependency>
+            <groupId>nz.govt.nzqa.healthchecks</groupId>
+            <artifactId>healthchecks-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+        <!-- Jetty -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>7.5.1.v20110908</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jsp-2.1-glassfish</artifactId>
+            <version>2.1.v20100127</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <!-- The maven app assembler plugin will generate a script that sets up the classpath and runs your project -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <assembleDirectory>target</assembleDirectory> 
+                    <programs>
+                        <program>
+                            <mainClass>nz.govt.nzqa.healthchecks.Main</mainClass>
+                            <name>webapp</name>
+                        </program>
+                    </programs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>				
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>localhost</id>
+            <properties>
+                <PORT>9090</PORT>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <version>1.4.5</version>
+                        <configuration>
+                            <!-- Container configuration -->
+                            <container>
+                                <containerId>jetty9x</containerId>
+                                <type>embedded</type>
+                                <!-- These values should be the DB connection properties used during dev testing locally. -->
+                                <systemProperties>
+                                    <healthchecks.port>9090</healthchecks.port>
+                                    <spring.profiles.active>local</spring.profiles.active>
+                                </systemProperties>
+                            </container>
+                            <configuration>
+                                <properties>
+                                    <cargo.jvmargs>-XX:+CMSPermGenSweepingEnabled -XX:MaxPermSize=512M
+                                        -Dfile.encoding=UTF-8
+                                    </cargo.jvmargs>
+                                    <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+                                    <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
+                                    <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+                                    <cargo.datasource.datasource.eqa>
+                                        cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
+                                        cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_eqa5;JCONNECT_VERSION=6&amp;HOSTNAME=nathan-smith;|
+                                        cargo.datasource.jndi=jdbc/web_eqa_db|
+                                        cargo.datasource.username=eqa_user_dev|
+                                        cargo.datasource.password=password
+                                    </cargo.datasource.datasource.eqa>
+                                </properties>
+                            </configuration>
+                            <!-- Configuration to use with the container or the deployer -->
+                            <deployables>
+                                <deployable>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>healthchecks</artifactId>
+                                    <type>war</type>
+                                    <properties>
+                                        <context></context>
+                                    </properties>
+                                </deployable>
+                            </deployables>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-container</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-container</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

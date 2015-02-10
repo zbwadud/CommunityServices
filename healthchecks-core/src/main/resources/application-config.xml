@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2015 New Zealand Qualifications Authority.
+  ~ All rights reserved.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
+
+    <!--<context:property-placeholder location="classpath:database/database.properties"/>-->
+    <!--
+        <bean id="ldapConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="properties">
+                <bean class="java.util.Properties">
+                    <constructor-arg>
+                        <map>
+                            <entry key="ldapServerUrl">
+                                <jee:jndi-lookup id="ldapServerUrl" jndi-name="java:comp/env/ldapServerUrl"/>
+                            </entry>
+                            <entry key="ldapUser">
+                                <jee:jndi-lookup id="ldapUser" jndi-name="java:comp/env/masterSecurityPrincipalUser"/>
+                            </entry>
+                            <entry key="ldapUserPassword">
+                                <jee:jndi-lookup id="ldapUserPassword"
+                                                 jndi-name="java:comp/env/masterSecurityPrincipalPwd"/>
+                            </entry>
+                            <entry key="ldapAdminUser">
+                                <jee:jndi-lookup id="ldapAdminUser" jndi-name="java:comp/env/ldapAdminUser"/>
+                            </entry>
+                            <entry key="ldapAdminUserPassword">
+                                <jee:jndi-lookup id="ldapAdminUserPassword"
+                                                 jndi-name="java:comp/env/ldapAdminUserPassword"/>
+                            </entry>
+                            <entry key="ldapRootDn">
+                                <jee:jndi-lookup id="ldapRootDn" jndi-name="java:comp/env/ldapRootDn"/>
+                            </entry>
+                        </map>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+    -->
+
+    <!-- JNDI datasource (jdbc/eqa) -->
+    <!--<bean id="eqaDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="resourceRef" value="true"/>-->
+        <!--<property name="jndiName" value="jdbc/web_eqa_db"/>-->
+    <!--</bean>-->
+
+    <jee:jndi-lookup id="eqaDataSource" jndi-name="jdbc/web_eqa_db"/>
+
+    <bean id="database" class="nz.govt.nzqa.healthchecks.resource.Database">
+        <property name="eqaDataSource" ref="eqaDataSource"/>
+    </bean>
+
+    <bean id="databaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
+        <constructor-arg ref="database"/>
+    </bean>
+
+    <bean id="healthCheckRegistry" class="nz.govt.nzqa.healthchecks.registry.HealthChecksRegistrar">
+        <property name="healthCheck">
+            <map>
+                <entry key="database" value-ref="databaseHealthCheck"/>
+            </map>
+        </property>
+    </bean>
+
+
+</beans>

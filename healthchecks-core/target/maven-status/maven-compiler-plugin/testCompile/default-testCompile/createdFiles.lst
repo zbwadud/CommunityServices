@@ -1,0 +1,3 @@
+nz\govt\nzqa\healthchecks\AppTest.class
+nz\govt\nzqa\healthchecks\web\TestHealthCheckServletListener.class
+nz\govt\nzqa\healthchecks\library\TestDatabaseHealthCheck.class

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2015 New Zealand Qualifications Authority.
+  ~ All rights reserved.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mockito="http://www.mockito.org/spring/mockito"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.mockito.org/spring/mockito http://www.mockito.org/spring/mockito.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
+
+
+    <bean id="eqaDatasource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:eqa;DB_CLOSE_DELAY=-1"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+
+    <mockito:mock id="database" class="nz.govt.nzqa.healthchecks.resource.Database"/>
+
+    <bean id="databaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
+        <constructor-arg ref="database"/>
+    </bean>
+
+    <bean id="healthCheckRegistry" class="nz.govt.nzqa.healthchecks.registry.HealthChecksRegistrar">
+        <property name="healthCheck">
+            <map>
+                <entry key="database" value-ref="databaseHealthCheck"/>
+            </map>
+        </property>
+    </bean>
+</beans>

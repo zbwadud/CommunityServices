@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="0.041" errors="0" skipped="0" tests="2" name="nz.govt.nzqa.healthchecks.library.TestDatabaseHealthCheck">
+  <properties>
+    <property name="idea.version" value="14.0.3"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Java\jdk1.7.0_67\jre\bin"/>
+    <property name="java.vm.version" value="24.65-b04"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="idea.launcher.port" value="7534"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="NZ"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="Service Pack 1"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Java\projects\mqa\healthchecks\healthchecks-core"/>
+    <property name="java.runtime.version" value="1.7.0_67-b01"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Java\jdk1.7.0_67\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\tmp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 7"/>
+    <property name="classworlds.conf" value="C:\Java\apache-maven-3.2.5\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Java\jdk1.7.0_67\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\sybase\DataAccess64\ADONET\dll;C:\sybase\DataAccess\ADONET\dll;C:\sybase\DataAccess\OLEDB\dll;C:\sybase\DataAccess64\OLEDB\dll;C:\sybase\DataAccess\ODBC\dll;C:\sybase\DataAccess64\ODBC\dll;C:\sybase\UAF-2_0\bin;C:\sybase\OCS-15_0\lib3p64;C:\sybase\OCS-15_0\lib3p;C:\sybase\OCS-15_0\dll;C:\sybase\OCS-15_0\bin;C:\Program Files (x86)\Windows Resource Kits\Tools\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Novell\ZENworks\bin;C:\Java\jdk1.6.0_41\bin;C:\Java\apache-ant-1.8.1\bin;C:\Java\apache-maven-3.0.5\bin;C:\Perl\bin;C:\Java\groovy-2.1.7\bin;C:\Java\vfabric-tc-server-developer-2.9.5.SR1;C:\Program Files (x86)\Common Files\Roxio Shared\10.0\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\sybase\DBISQL\bin;C:\Program Files (x86)\Novell\GroupWise;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Git\cmd;C:\Wakaleo\tools\apache-maven-2.2.1\bin;C:\Wakaleo\tools\jdk1.6.0\bin;C:\Perl\bin;C:\Tools\SysinternalsSuite;C:\Java\Services Restart\Local;."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="51.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="maven.repo.local" value="C:\.m2\repository"/>
+    <property name="os.version" value="6.1"/>
+    <property name="user.home" value="C:\Users\NathanS"/>
+    <property name="user.timezone" value="Pacific/Auckland"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.7"/>
+    <property name="idea.launcher.bin.path" value="C:\Java\JetBrains\IntelliJ IDEA 14.0.2\bin"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="NathanS"/>
+    <property name="java.class.path" value="C:\Java\apache-maven-3.2.5\boot\plexus-classworlds-2.5.2.jar;C:\Java\JetBrains\IntelliJ IDEA 14.0.2\lib\idea_rt.jar"/>
+    <property name="java.vm.specification.version" value="1.7"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Java\jdk1.7.0_67\jre"/>
+    <property name="sun.java.command" value="com.intellij.rt.execution.application.AppMain org.codehaus.classworlds.Launcher -Didea.version=14.0.3 -s C:\Users\NathanS\.m2\settings.xml -Dmaven.repo.local=C:\.m2\repository test -P nexus,!jdk1.8"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="en"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.7.0_67"/>
+    <property name="java.ext.dirs" value="C:\Java\jdk1.7.0_67\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Java\jdk1.7.0_67\jre\lib\resources.jar;C:\Java\jdk1.7.0_67\jre\lib\rt.jar;C:\Java\jdk1.7.0_67\jre\lib\sunrsasign.jar;C:\Java\jdk1.7.0_67\jre\lib\jsse.jar;C:\Java\jdk1.7.0_67\jre\lib\jce.jar;C:\Java\jdk1.7.0_67\jre\lib\charsets.jar;C:\Java\jdk1.7.0_67\jre\lib\jfr.jar;C:\Java\jdk1.7.0_67\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Java\apache-maven-3.2.5"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase time="0.039" classname="nz.govt.nzqa.healthchecks.library.TestDatabaseHealthCheck" name="testDatabaseIsHealthy"/>
+  <testcase time="0.002" classname="nz.govt.nzqa.healthchecks.library.TestDatabaseHealthCheck" name="testDatabaseIsNotHealthy"/>
+</testsuite>
