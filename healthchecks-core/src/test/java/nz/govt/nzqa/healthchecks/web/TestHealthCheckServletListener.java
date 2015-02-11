@@ -31,11 +31,11 @@ import static org.hamcrest.Matchers.nullValue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-application-config.xml")
-@WebAppConfiguration()
+@WebAppConfiguration
 public class TestHealthCheckServletListener {
 
     @Autowired
-    WebApplicationContext wac;
+    WebApplicationContext webApplicationContext;
 
     @Autowired
     MockServletContext mockServletContext;
@@ -45,15 +45,14 @@ public class TestHealthCheckServletListener {
 
     @Before
     public void before() {
+
+        mockServletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webApplicationContext);
         listener = new HealthCheckServletListener();
         listener.contextInitialized(new ServletContextEvent(mockServletContext));
     }
 
     @Test
     public void testHealthCheckServletListener() throws Exception {
-        WebApplicationContext context = (WebApplicationContext) mockServletContext
-                .getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-        System.out.println("context = " + context);
         assertThat(listener.getHealthCheckRegistry(), is(not(nullValue())));
     }
 }

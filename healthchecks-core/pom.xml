@@ -10,7 +10,7 @@
     <artifactId>healthchecks-core</artifactId>
     <packaging>jar</packaging>
 
-    <name>Health Checks - Core Checks</name>
+    <name>Health Checks - Core Library</name>
     <url>http://maven.apache.org</url>
 
     <properties>

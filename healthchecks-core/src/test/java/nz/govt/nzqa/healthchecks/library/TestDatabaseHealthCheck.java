@@ -43,7 +43,6 @@ public class TestDatabaseHealthCheck  {
     @Before
     public void before() {
         initMocks(this);
-
         if (LOG.isDebugEnabled()){
             LOG.debug("[TestDatabaseHealthCheck.before] database = " + database.toString());
         }

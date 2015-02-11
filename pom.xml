@@ -7,12 +7,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>healthchecks-parent</name>
+    <name>Health Checks - Parent</name>
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>healthchecks-testservice</module>
         <module>healthchecks-core</module>
+        <module>healthchecks-testservice</module>
     </modules>
 
     <properties>

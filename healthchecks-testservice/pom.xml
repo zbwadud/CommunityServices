@@ -29,7 +29,7 @@
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
         <!-- Jetty -->
@@ -76,6 +76,13 @@
                     </execution>				
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.5</version>
+            </plugin>
+
         </plugins>
     </build>
     <profiles>
