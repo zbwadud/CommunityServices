@@ -19,6 +19,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-healthchecks</artifactId>
         </dependency>
@@ -26,10 +30,10 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-servlets</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.ryantenney.metrics</groupId>-->
-            <!--<artifactId>metrics-spring</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.ryantenney.metrics</groupId>
+            <artifactId>metrics-spring</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

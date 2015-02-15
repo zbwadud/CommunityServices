@@ -30,6 +30,11 @@
         <project.mockito.core.version>1.9.5</project.mockito.core.version>
         <project.springockito.version>1.0.9</project.springockito.version>
         <project.servlet.api.version>3.0.1</project.servlet.api.version>
+
+        <cargo.servlet.port>7090</cargo.servlet.port>
+        <cargo.rmi.port>7019</cargo.rmi.port>
+        <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>
+        <project.cargo.version>1.4.12</project.cargo.version>
     </properties>
 
     <dependencyManagement>
@@ -59,6 +64,28 @@
                 <groupId>com.ryantenney.metrics</groupId>
                 <artifactId>metrics-spring</artifactId>
                 <version>${project.metrics.spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-aop</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context-support</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Servlet API -->
@@ -142,6 +169,11 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${project.spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${project.spring.version}</version>
             </dependency>
@@ -179,6 +211,41 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <source>${project.java.version}</source>
                         <target>${project.java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>${project.cargo.version}</version>
+                    <configuration>
+                        <configuration>
+                            <properties>
+                                <cargo.jvmargs>-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M
+                                    -Dfile.encoding=UTF-8
+                                </cargo.jvmargs>
+                                <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+                                <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
+                                <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+                                <cargo.datasource.datasource.eqa>
+                                    cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
+                                    cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_eqa5|
+                                    cargo.datasource.jndi=jdbc/web_eqa_db|
+                                    cargo.datasource.username=eqa_user_dev|
+                                    cargo.datasource.password=password
+                                </cargo.datasource.datasource.eqa>
+                            </properties>
+                        </configuration>
+                        <!-- Configuration to use with the container or the deployer -->
+                        <deployables>
+                            <deployable>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>healthchecks-testservice</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context></context>
+                                </properties>
+                            </deployable>
+                        </deployables>
                     </configuration>
                 </plugin>
             </plugins>

@@ -6,10 +6,11 @@
 package nz.govt.nzqa.healthchecks.web;
 
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
+import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.servlets.HealthCheckServlet;
+import com.codahale.metrics.servlets.MetricsServlet;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -20,23 +21,24 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @author $Author$
  * @version $Revision$
  */
-public class HealthCheckServletListener extends HealthCheckServlet.ContextListener implements ServletContextListener {
+public class MetricsServletListener extends MetricsServlet.ContextListener {
+
 
     private WebApplicationContext context;
 
 
-    public HealthCheckServletListener() {
+    public MetricsServletListener() {
     }
 
 
-    public HealthCheckServletListener(WebApplicationContext context) {
+    public MetricsServletListener(WebApplicationContext context) {
         this.context = context;
     }
 
 
     @Override
-    protected HealthCheckRegistry getHealthCheckRegistry() {
-        return context.getBean(HealthCheckRegistry.class);
+    protected MetricRegistry getMetricRegistry() {
+        return context.getBean(MetricRegistry.class);
     }
 
 
@@ -44,6 +46,6 @@ public class HealthCheckServletListener extends HealthCheckServlet.ContextListen
     public void contextInitialized(ServletContextEvent event) {
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
         this.context.getServletContext()
-                .setAttribute(HealthCheckServlet.HEALTH_CHECK_REGISTRY, context.getBean(HealthCheckRegistry.class));
+                .setAttribute(MetricsServlet.METRICS_REGISTRY, context.getBean(MetricRegistry.class));
     }
 }

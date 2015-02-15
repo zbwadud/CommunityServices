@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -17,12 +18,15 @@ import com.codahale.metrics.health.HealthCheckRegistry;
  * @author $Author$
  * @version $Revision$
  */
-public class HealthChecksRegistrar extends HealthCheckRegistry {
+public class HealthChecksRegistrar {
+
+    @Autowired
+    HealthCheckRegistry registry;
 
 
     public void setHealthCheck(Map<String, HealthCheck> healthChecks) {
         for (Map.Entry<String, HealthCheck> entry : healthChecks.entrySet()) {
-            super.register(entry.getKey(), entry.getValue());
+            registry.register(entry.getKey(), entry.getValue());
         }
     }
 
