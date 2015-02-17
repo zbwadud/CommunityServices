@@ -8,35 +8,39 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mockito="http://www.mockito.org/spring/mockito"
-       xmlns:metrics="http://www.ryantenney.com/schema/metrics"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.mockito.org/spring/mockito http://www.mockito.org/spring/mockito.xsd
-       http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd">
+       http://www.mockito.org/spring/mockito http://www.mockito.org/spring/mockito.xsd">
 
     <context:annotation-config/>
     <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
 
-    <metrics:health-check-registry id="healthCheckRegistry"/>
-
-    <!-- annotation-driven must be included in all context files -->
-    <metrics:annotation-driven health-check-registry="healthCheckRegistry"/>
-
-
-    <bean id="eqaDatasource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+    <bean id="webEqaDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:eqa;DB_CLOSE_DELAY=-1"/>
+        <property name="url" value="jdbc:h2:mem:web_eqa;DB_CLOSE_DELAY=-1"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+    <bean id="webReadWriteDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:web_read_write_prod;DB_CLOSE_DELAY=-1"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
 
-    <mockito:mock id="database" class="nz.govt.nzqa.healthchecks.resource.Database"/>
+    <mockito:mock id="webEqaDatabase" class="nz.govt.nzqa.healthchecks.resource.Database"/>
+    <mockito:mock id="webReadWriteDatabase" class="nz.govt.nzqa.healthchecks.resource.Database"/>
 
-    <bean id="databaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
-        <constructor-arg ref="database"/>
+    <bean id="webEqaDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
+        <constructor-arg ref="webEqaDatabase"/>
+    </bean>
+
+    <bean id="webReadWriteDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
+        <constructor-arg ref="webReadWriteDatabase"/>
     </bean>
 
     <!-- Register HealthCheck implementations with the HealthCheckRegistry via the HealthChecksRegistrar -->
+<!--
     <bean class="nz.govt.nzqa.healthchecks.registry.HealthChecksRegistrar">
         <property name="healthCheck">
             <map>
@@ -44,4 +48,5 @@
             </map>
         </property>
     </bean>
+-->
 </beans>

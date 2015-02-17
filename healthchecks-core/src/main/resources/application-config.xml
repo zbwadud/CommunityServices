@@ -17,12 +17,6 @@
     <context:annotation-config/>
     <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
 
-    <!--<metrics:health-check-registry id="healthCheckRegistry"/>-->
-
-    <!-- annotation-driven must be included in all context files -->
-    <!--<metrics:annotation-driven health-check-registry="healthCheckRegistry"/>-->
-
-
     <jee:jndi-lookup id="eqaDataSource" jndi-name="jdbc/web_eqa_db"/>
 
     <bean id="database" class="nz.govt.nzqa.healthchecks.resource.Database">
@@ -33,6 +27,7 @@
         <constructor-arg ref="database"/>
     </bean>
 
+<!--
     <bean class="nz.govt.nzqa.healthchecks.registry.HealthChecksRegistrar">
         <property name="healthCheck">
             <map>
@@ -40,6 +35,7 @@
             </map>
         </property>
     </bean>
+-->
 
 
 </beans>

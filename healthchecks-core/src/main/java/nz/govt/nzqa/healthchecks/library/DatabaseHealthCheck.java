@@ -19,10 +19,6 @@ import com.codahale.metrics.health.HealthCheck;
 public class DatabaseHealthCheck extends HealthCheck {
 
 
-    // Time in seconds to wait for the database operation to complete
-    public static final int TIMEOUT = 60;
-
-
     private final Database database;
 
 
