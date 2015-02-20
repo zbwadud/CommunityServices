@@ -47,6 +47,8 @@ public class MyWebAppInitializer implements WebApplicationInitializer {
                 container.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/healthchecks/*");
+
+        container.setInitParameter("spring.profiles.active", "default");
     }
 
 }

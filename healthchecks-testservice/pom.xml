@@ -165,7 +165,7 @@
                                         <artifactId>healthchecks-testservice</artifactId>
                                         <type>war</type>
                                         <properties>
-                                            <context>webapi</context>
+                                            <context>testservice</context>
                                         </properties>
                                     </deployable>
                                 </deployables>

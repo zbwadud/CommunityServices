@@ -30,11 +30,12 @@
         <project.mockito.core.version>1.9.5</project.mockito.core.version>
         <project.springockito.version>1.0.9</project.springockito.version>
         <project.servlet.api.version>3.0.1</project.servlet.api.version>
+        <project.cargo.version>1.4.12</project.cargo.version>
+        <project.jcifs.version>1.3.14</project.jcifs.version>
 
         <cargo.servlet.port>7090</cargo.servlet.port>
         <cargo.rmi.port>7019</cargo.rmi.port>
         <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>
-        <project.cargo.version>1.4.12</project.cargo.version>
     </properties>
 
     <dependencyManagement>
@@ -127,12 +128,6 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-integration</artifactId>
-                <version>${project.hamcrest.integration.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${project.h2.version}</version>
@@ -190,6 +185,16 @@
                 <artifactId>guava</artifactId>
                 <version>${project.guava.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>jcifs</groupId>
+                <artifactId>jcifs</artifactId>
+                <version>${project.jcifs.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -232,13 +237,20 @@
                                 <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
                                 <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
                                 <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
-                                <cargo.datasource.datasource.eqa>
+                                <cargo.datasource.datasource.web_eqa>
                                     cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
                                     cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_eqa5|
                                     cargo.datasource.jndi=jdbc/web_eqa_db|
                                     cargo.datasource.username=eqa_user_dev|
                                     cargo.datasource.password=password
-                                </cargo.datasource.datasource.eqa>
+                                </cargo.datasource.datasource.web_eqa>
+                                <cargo.datasource.datasource.eqa_read_write>
+                                    cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
+                                    cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_read_write_prod5|
+                                    cargo.datasource.jndi=jdbc/web_read_write_db|
+                                    cargo.datasource.username=eqa_user_dev|
+                                    cargo.datasource.password=password
+                                </cargo.datasource.datasource.eqa_read_write>
                             </properties>
                         </configuration>
                         <!-- Configuration to use with the container or the deployer -->

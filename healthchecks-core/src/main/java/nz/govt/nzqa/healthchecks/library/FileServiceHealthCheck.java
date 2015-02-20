@@ -16,24 +16,25 @@ import com.codahale.metrics.health.HealthCheck;
  * @author $Author$
  * @version $Revision$
  */
-public class DatabaseHealthCheck extends HealthCheck {
+public class FileServiceHealthCheck extends HealthCheck {
 
 
     private final Resource resource;
 
 
-    public DatabaseHealthCheck(Resource resource) {
+    public FileServiceHealthCheck(Resource resource) {
         this.resource = resource;
     }
 
 
     @Override
     protected Result check() throws Exception {
+
         if (resource.ping()) {
-            return Result.healthy();
+            return Result.healthy(resource.toString());
         }
         else {
-            return Result.unhealthy("Cannot connect to " + resource.toString());
+            return Result.unhealthy("Cannot access file service " + resource.toString());
         }
     }
 }

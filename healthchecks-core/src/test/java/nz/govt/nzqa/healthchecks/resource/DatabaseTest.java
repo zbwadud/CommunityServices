@@ -40,7 +40,7 @@ public class DatabaseTest extends AbstractHealthCheckTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        database.setEqaDataSource(webEqaDataSource);
+        database.setDataSource(webEqaDataSource);
 
     }
 
@@ -65,9 +65,10 @@ public class DatabaseTest extends AbstractHealthCheckTest {
     }
 
 
-    @Test(expected = SQLException.class)
+    @Test(expected = ResourceNotAvailableException.class)
     public void testPingThrowsException() throws Exception {
-        doThrow(SQLException.class).when(database).ping();
+        SQLException sqle = new SQLException("Connection failed.", new Throwable().fillInStackTrace());
+        when(database.ping()).thenThrow(new ResourceNotAvailableException(sqle.getMessage(), sqle));
         database.ping();
     }
 }

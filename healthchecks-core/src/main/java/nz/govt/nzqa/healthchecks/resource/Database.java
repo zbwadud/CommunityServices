@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 
 /**
@@ -23,37 +21,39 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author $Author$
  * @version $Revision$
  */
-public class Database {
+public class Database implements Resource {
 
     private static final Logger LOG = LoggerFactory.getLogger(Database.class);
 
 
-    private DataSource eqaDataSource;
+    private DataSource dataSource;
 
 
-    public void setEqaDataSource(DataSource eqaDataSource) {
-        this.eqaDataSource = eqaDataSource;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
 
-    public boolean ping() throws SQLException {
+    @Override
+    public boolean ping() throws ResourceNotAvailableException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("[Database.ping] ");
         }
-        try (Connection connection = eqaDataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
                 Statement statement = connection.createStatement()) {
             return statement.execute("SELECT 1");
         }
         catch (SQLException e) {
-            throw e;
+            throw new ResourceNotAvailableException(
+                    "There was a problem while accessing the database " + dataSource, e);
         }
     }
 
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Database{");
-        sb.append("eqaDataSource=").append(eqaDataSource);
+        final StringBuilder sb = new StringBuilder("Database - ");
+        sb.append("eqaDataSource=").append(dataSource);
 //        sb.append("url=").append(eqaDataSource.getUrl());
 //        sb.append("driver=").append(eqaDataSource.getDriver().getClass().getName());
 //        sb.append("username=").append(eqaDataSource.getUsername());

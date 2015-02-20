@@ -5,10 +5,12 @@
 
 package nz.govt.nzqa.healthchecks.web;
 
+import java.util.SortedMap;
 import java.util.SortedSet;
 
 import nz.govt.nzqa.healthchecks.AbstractHealthCheckTest;
 
+import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,6 +57,12 @@ public class TestHealthCheckServletListener extends AbstractHealthCheckTest {
         HealthCheckRegistry healthCheckRegistry = listenerMock.getHealthCheckRegistry();
         SortedSet<String> names = healthCheckRegistry.getNames();
         assertThat(names, hasSize(greaterThan(0)));
+    }
+
+
+    @Test
+    public void test() throws Exception {
+        SortedMap<String, HealthCheck.Result> stringResultSortedMap = healthCheckRegistry.runHealthChecks();
     }
 
 

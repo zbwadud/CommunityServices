@@ -8,34 +8,25 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:metrics="http://www.ryantenney.com/schema/metrics"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-       http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd">
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <import resource="classpath:services-config.xml"/>
 
     <context:annotation-config/>
     <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
+    <context:property-placeholder location="classpath:cifs_smb/client.properties"/>
 
-    <jee:jndi-lookup id="eqaDataSource" jndi-name="jdbc/web_eqa_db"/>
 
-    <bean id="database" class="nz.govt.nzqa.healthchecks.resource.Database">
-        <property name="eqaDataSource" ref="eqaDataSource"/>
+    <bean id="webEqaDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
+        <constructor-arg ref="webEqaDatabase"/>
     </bean>
-
-    <bean id="databaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
-        <constructor-arg ref="database"/>
+    <bean id="webReadWriteDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
+        <constructor-arg ref="webReadWriteDatabase"/>
     </bean>
-
-<!--
-    <bean class="nz.govt.nzqa.healthchecks.registry.HealthChecksRegistrar">
-        <property name="healthCheck">
-            <map>
-                <entry key="database" value-ref="databaseHealthCheck"/>
-            </map>
-        </property>
+    <bean id="fileServiceHealthCheck" class="nz.govt.nzqa.healthchecks.library.FileServiceHealthCheck">
+        <constructor-arg ref="fileService"/>
     </bean>
--->
-
 
 </beans>
