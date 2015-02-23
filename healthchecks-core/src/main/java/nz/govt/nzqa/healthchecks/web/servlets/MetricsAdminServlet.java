@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package nz.govt.nzqa.healthchecks.web;
+package nz.govt.nzqa.healthchecks.web.servlets;
 
 import javax.servlet.annotation.WebServlet;
 

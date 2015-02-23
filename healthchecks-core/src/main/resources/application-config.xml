@@ -8,9 +8,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:metrics="http://www.ryantenney.com/schema/metrics"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd">
 
     <import resource="classpath:services-config.xml"/>
 
@@ -18,6 +20,19 @@
     <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
     <context:property-placeholder location="classpath:cifs_smb/client.properties"/>
 
+<!--
+    <metrics:register metric-registry="metrics">
+        <bean metrics:name="jvm.gc" class="com.codahale.metrics.jvm.GarbageCollectorMetricSet"/>
+        <bean metrics:name="jvm.memory" class="com.codahale.metrics.jvm.MemoryUsageGaugeSet"/>
+        <bean metrics:name="jvm.thread-states" class="com.codahale.metrics.jvm.ThreadStatesGaugeSet"/>
+        <bean metrics:name="jvm.fd.usage" class="com.codahale.metrics.jvm.FileDescriptorRatioGauge"/>
+    </metrics:register>
+-->
+
+    <bean id="jvmGC" class="com.codahale.metrics.jvm.GarbageCollectorMetricSet"/>
+    <bean id="jvmMemory" class="com.codahale.metrics.jvm.MemoryUsageGaugeSet"/>
+    <bean id="jvmThreadStates" class="com.codahale.metrics.jvm.ThreadStatesGaugeSet"/>
+    <bean id="jvmFdUsage" class="com.codahale.metrics.jvm.FileDescriptorRatioGauge"/>
 
     <bean id="webEqaDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
         <constructor-arg ref="webEqaDatabase"/>

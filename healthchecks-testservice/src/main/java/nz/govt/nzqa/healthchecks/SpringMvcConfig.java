@@ -3,6 +3,7 @@
  * All rights reserved.
  */
 
+/*
 package nz.govt.nzqa.healthchecks;
 
 import org.springframework.context.annotation.ComponentScan;
@@ -11,8 +12,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = "nz.govt.nzqa.healthchecks")
 public class SpringMvcConfig {
 
 }
+*/

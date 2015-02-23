@@ -3,12 +3,13 @@
  * All rights reserved.
  */
 
-package nz.govt.nzqa.healthchecks.web;
+package nz.govt.nzqa.healthchecks.web.servlets;
 
 import java.util.SortedMap;
 import java.util.SortedSet;
 
 import nz.govt.nzqa.healthchecks.AbstractHealthCheckTest;
+import nz.govt.nzqa.healthchecks.web.servlets.HealthCheckServletListener;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;

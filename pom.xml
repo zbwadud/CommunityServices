@@ -32,6 +32,8 @@
         <project.servlet.api.version>3.0.1</project.servlet.api.version>
         <project.cargo.version>1.4.12</project.cargo.version>
         <project.jcifs.version>1.3.14</project.jcifs.version>
+        <project.jersey.version>2.10.1</project.jersey.version>
+        <project.jersey.media.json.jackson.version>2.5.1</project.jersey.media.json.jackson.version>
 
         <cargo.servlet.port>7090</cargo.servlet.port>
         <cargo.rmi.port>7019</cargo.rmi.port>
@@ -89,12 +91,33 @@
                 </exclusions>
             </dependency>
 
-            <!-- Servlet API -->
+            <!-- Servlet/REST/JAX-WS -->
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${project.servlet.api.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet</artifactId>
+                <version>${project.jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${project.jersey.media.json.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-spring3</artifactId>
+                <version>${project.jersey.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Logging -->
