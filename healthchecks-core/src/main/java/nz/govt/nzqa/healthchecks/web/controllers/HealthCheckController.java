@@ -4,8 +4,8 @@
  */
 package nz.govt.nzqa.healthchecks.web.controllers;
 
-import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import javax.ws.rs.GET;
@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -20,7 +21,12 @@ import javax.ws.rs.core.UriInfo;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
+import org.glassfish.jersey.model.internal.CommonConfig;
+import org.glassfish.jersey.server.ExtendedResourceContext;
+import org.glassfish.jersey.server.model.Resource;
+import org.glassfish.jersey.server.model.ResourceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.AbstractResource;
 import org.springframework.stereotype.Controller;
 
 //        import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
@@ -32,16 +38,18 @@ import org.springframework.stereotype.Controller;
  * @author $Author$
  * @version $Revision$
  */
+@Path("/")
 @Controller
-@Path("hc")
 public class HealthCheckController {
 
     @Context
     UriInfo uriInfo;
 
+    @Context
+    private ExtendedResourceContext erContext;
+
     @Autowired
     private HealthCheckRegistry healthChecks;
-
 
 
     @GET
@@ -50,10 +58,10 @@ public class HealthCheckController {
     public Response doMenu() {
         StringBuilder view = new StringBuilder().append("<html>\n"
                 + "<body>\n"
-                + "<a href=\"metrics\">Admin Servlet</a>\n"
+                + "<a href=\"../metrics\">Admin Servlet</a>\n"
                 + "</body>\n"
                 + "</html>\n");
-        return Response.status(Response.Status.OK).entity(view).build();
+        return Response.status(Response.Status.OK).entity(view.toString()).build();
     }
 
 
@@ -64,6 +72,7 @@ public class HealthCheckController {
     public Response doOverallStatus() {
         final Map<String, HealthCheck.Result> results = healthChecks.runHealthChecks();
 
+        Map<String, String> unHealthyResults = new HashMap<>();
         Status status = Response.Status.OK;
         for (HealthCheck.Result result : results.values()) {
             if (!result.isHealthy()) {
@@ -75,30 +84,24 @@ public class HealthCheckController {
     }
 
 
-/*    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
+    @GET
+    @Path("/help")
     @Produces(MediaType.TEXT_HTML)
     public String listServices() {
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = this.handlerMapping.getHandlerMethods();
         StringBuilder listing = new StringBuilder();
         listing.append("<dl>");
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-            Set<String> patterns = entry.getKey().getPatternsCondition().getPatterns();
-            String url = "";
-            if (!patterns.isEmpty()) {
-                url = patterns.iterator().next();
-            }
-            listing.append("<dt><b>[<a href=\"").append(servletContext.getContextPath()).append(url)
-                    .append("\" target=\"_blank\">").append(url).append("</a>]</b></dt>");
-            MethodParameter[] methodParameters = entry.getValue().getMethodParameters();
-            listing.append("<dd>Parameters:</dd>");
-            for (MethodParameter methodParameter : methodParameters) {
-                formatParameters(listing, methodParameter);
+        List<Resource> rootResources = erContext.getResourceModel().getRootResources();
+        for (Resource rootResource : rootResources) {
+            listing.append("<dt>Name: ").append(rootResource.getName()).append("</dt>");
+            listing.append("<dt>Path: ").append(rootResource.getPath()).append("</dt>");
+            List<ResourceMethod> resourceMethods = rootResource.getResourceMethods();
+            for (ResourceMethod resourceMethod : resourceMethods) {
+                listing.append("<dd>Resource Method: ").append(resourceMethod.toString()).append("</dd>");
             }
         }
         listing.append("</dl>");
         return "<!DOCTYPE html><html><body>" + listing + "</body></html>";
-    }*/
+    }
 
 
     @GET
@@ -113,7 +116,7 @@ public class HealthCheckController {
             String uri = template.replace("list", name);
             namesMap.put(name, uri);
         };
-        return Response.status(Status.OK).entity(namesMap).build();
+        return Response.status(Status.OK).entity(new GenericEntity<Map<String, String>>(namesMap, Map.class)).build();
     }
 
 

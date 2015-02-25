@@ -18,6 +18,5 @@ import org.springframework.context.annotation.ImportResource;
  */
 @Configuration
 @ImportResource("classpath:application-config.xml")
-@Import(MetricsConfig.class)
 public class RootConfig {
 }

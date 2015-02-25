@@ -11,6 +11,7 @@ import javax.servlet.ServletRegistration;
 import nz.govt.nzqa.healthchecks.web.servlets.HealthCheckServletListener;
 import nz.govt.nzqa.healthchecks.web.servlets.MetricsServletListener;
 
+import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -43,39 +44,10 @@ public class MyWebAppInitializer implements WebApplicationInitializer {
 
         // Register Jersey Servlet
         ServletRegistration.Dynamic dispatcher =
-                context.addServlet("healthchecks-testservice", ServletContainer.class.getName());
-        dispatcher.setInitParameter("javax.ws.rs.Application", JerseyConfig.class.getName());
+                context.addServlet("Health Checks - Test Service", new ServletContainer(new JerseyConfig()));
+//        dispatcher.setInitParameter("javax.ws.rs.Application", JerseyConfig.class.getName());
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/healthchecks/*");
-
-/*
-        // Create the 'root' Spring application context
-        AnnotationConfigWebApplicationContext rootContext =
-                new AnnotationConfigWebApplicationContext();
-        rootContext.register(RootConfig.class);
-
-        // Manage the lifecycle of the root application context
-        context.addListener(new ContextLoaderListener(rootContext));
-        context.addListener(new HealthCheckServletListener(rootContext));
-        context.addListener(new MetricsServletListener(rootContext));
-
-        context.setInitParameter("spring.profiles.active", "default");
-        // Create the dispatcher servlet's Spring application context
-//        AnnotationConfigWebApplicationContext dispatcherContext =
-//                new AnnotationConfigWebApplicationContext();
-//        dispatcherContext.register(SpringMvcConfig.class);
-
-        // Register and map the dispatcher servlet
-        ServletContainer servlet = new ServletContainer();
-
-        ServletRegistration.Dynamic dispatcher =
-                context.addServlet("healthchecks-testservice", servlet);
-        dispatcher.setInitParameter("javax.ws.rs.Application", JerseyConfig.class.getName());
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/healthchecks*/
-/*");
-*/
-
+        dispatcher.addMapping("/rest/*");
     }
 
 }

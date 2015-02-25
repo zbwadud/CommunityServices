@@ -5,7 +5,11 @@
 
 package nz.govt.nzqa.healthchecks;
 
+import nz.govt.nzqa.healthchecks.web.controllers.HealthCheckController;
+
+import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +35,10 @@ public class JerseyConfig extends ResourceConfig {
             }
         }
         // JAX-RS package scan
-        packages("nz.govt.nzqa.healthchecks", "nz.govt.nzqa.healthchecks.web.controllers");
+//        packages("nz.govt.nzqa.healthchecks", "nz.govt.nzqa.healthchecks.web.controllers");
+        register(HealthCheckController.class);
+        register(RequestContextFilter.class);
+        register(MOXyJsonProvider.class);
     }
 
 }

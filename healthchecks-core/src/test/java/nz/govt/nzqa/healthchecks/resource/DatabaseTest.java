@@ -32,7 +32,7 @@ public class DatabaseTest extends AbstractHealthCheckTest {
     @Qualifier("webEqaDatabase")
     Database database;
 
-    @Mock
+    @Autowired
     @Qualifier("webEqaDataSource")
     DataSource webEqaDataSource;
 
