@@ -8,10 +8,11 @@ package nz.govt.nzqa.healthchecks;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import nz.govt.nzqa.healthchecks.config.JerseyConfig;
+import nz.govt.nzqa.healthchecks.config.RootConfig;
 import nz.govt.nzqa.healthchecks.web.servlets.HealthCheckServletListener;
 import nz.govt.nzqa.healthchecks.web.servlets.MetricsServletListener;
 
-import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

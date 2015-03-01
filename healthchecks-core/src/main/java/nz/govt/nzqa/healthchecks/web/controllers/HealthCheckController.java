@@ -21,12 +21,12 @@ import javax.ws.rs.core.UriInfo;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
-import org.glassfish.jersey.model.internal.CommonConfig;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.server.ExtendedResourceContext;
 import org.glassfish.jersey.server.model.Resource;
 import org.glassfish.jersey.server.model.ResourceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.AbstractResource;
 import org.springframework.stereotype.Controller;
 
 //        import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
@@ -74,13 +74,16 @@ public class HealthCheckController {
 
         Map<String, String> unHealthyResults = new HashMap<>();
         Status status = Response.Status.OK;
-        for (HealthCheck.Result result : results.values()) {
-            if (!result.isHealthy()) {
+        for (Map.Entry<String, HealthCheck.Result> entry : results.entrySet()) {
+            if (!entry.getValue().isHealthy()) {
                 status = Response.Status.INTERNAL_SERVER_ERROR;
-                break;
+                unHealthyResults.put(entry.getKey(), entry.getValue().getMessage());
             }
         }
-        return Response.status(status).entity(results).build();
+        if (!unHealthyResults.isEmpty()) {
+            return Response.status(status).entity(unHealthyResults).build();
+        }
+        return Response.status(status).build();
     }
 
 
@@ -94,6 +97,9 @@ public class HealthCheckController {
         for (Resource rootResource : rootResources) {
             listing.append("<dt>Name: ").append(rootResource.getName()).append("</dt>");
             listing.append("<dt>Path: ").append(rootResource.getPath()).append("</dt>");
+            listing.append("<dt>Path Pattern: ").append(rootResource.getPathPattern()).append("</dt>");
+            listing.append("<dt>Resource Locator: ").append(rootResource.getResourceLocator()).append("</dt>");
+            listing.append("<dt>Resource Methods: ").append(rootResource.getResourceMethods()).append("</dt>");
             List<ResourceMethod> resourceMethods = rootResource.getResourceMethods();
             for (ResourceMethod resourceMethod : resourceMethods) {
                 listing.append("<dd>Resource Method: ").append(resourceMethod.toString()).append("</dd>");
@@ -108,7 +114,7 @@ public class HealthCheckController {
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
 //    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
-    public Response list() {
+    public Response list() throws JsonProcessingException {
         SortedSet<String> names = healthChecks.getNames();
         Map<String, String> namesMap = new HashMap<>();
         String template = uriInfo.getAbsolutePathBuilder().toTemplate();
@@ -116,7 +122,9 @@ public class HealthCheckController {
             String uri = template.replace("list", name);
             namesMap.put(name, uri);
         };
-        return Response.status(Status.OK).entity(new GenericEntity<Map<String, String>>(namesMap, Map.class)).build();
+        ObjectMapper mapper = new ObjectMapper();
+        String resultString = mapper.writeValueAsString(namesMap);
+        return Response.status(Status.OK).entity(resultString).build();
     }
 
 

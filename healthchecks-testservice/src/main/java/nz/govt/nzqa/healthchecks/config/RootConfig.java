@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package nz.govt.nzqa.healthchecks;
+package nz.govt.nzqa.healthchecks.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

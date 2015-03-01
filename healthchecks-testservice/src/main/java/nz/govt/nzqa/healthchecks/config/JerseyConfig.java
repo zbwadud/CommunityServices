@@ -3,10 +3,11 @@
  * All rights reserved.
  */
 
-package nz.govt.nzqa.healthchecks;
+package nz.govt.nzqa.healthchecks.config;
 
 import nz.govt.nzqa.healthchecks.web.controllers.HealthCheckController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
@@ -35,7 +36,6 @@ public class JerseyConfig extends ResourceConfig {
             }
         }
         // JAX-RS package scan
-//        packages("nz.govt.nzqa.healthchecks", "nz.govt.nzqa.healthchecks.web.controllers");
         register(HealthCheckController.class);
         register(RequestContextFilter.class);
         register(MOXyJsonProvider.class);

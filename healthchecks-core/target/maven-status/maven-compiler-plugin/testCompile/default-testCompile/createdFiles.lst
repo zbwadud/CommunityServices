@@ -1,3 +1,11 @@
+nz\govt\nzqa\healthchecks\resource\DatabaseTest.class
+nz\govt\nzqa\healthchecks\config\RootConfig.class
+nz\govt\nzqa\healthchecks\library\TestFileServiceHealthCheck.class
+nz\govt\nzqa\healthchecks\resource\FileServiceTest.class
+nz\govt\nzqa\healthchecks\web\servlets\TestHealthCheckServletListener.class
+nz\govt\nzqa\healthchecks\library\TestDatabaseHealthCheck$HealthCheckTypes.class
 nz\govt\nzqa\healthchecks\AppTest.class
-nz\govt\nzqa\healthchecks\web\TestHealthCheckServletListener.class
+nz\govt\nzqa\healthchecks\config\MetricsConfig.class
 nz\govt\nzqa\healthchecks\library\TestDatabaseHealthCheck.class
+nz\govt\nzqa\healthchecks\web\controllers\HealthCheckControllerIT.class
+nz\govt\nzqa\healthchecks\AbstractHealthCheckTest.class

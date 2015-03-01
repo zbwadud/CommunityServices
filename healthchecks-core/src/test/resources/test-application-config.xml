@@ -18,6 +18,8 @@
     <mockito:mock id="webReadWriteDatabase" class="nz.govt.nzqa.healthchecks.resource.Database"/>
     <mockito:mock id="fileService" class="nz.govt.nzqa.healthchecks.resource.FileService"/>
 
+    <bean id="testClientBuilder" class="javax.ws.rs.client.ClientBuilder" factory-method="newClient" destroy-method="close"/>
+
     <beans profile="dev">
         <bean id="webEqaDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
             <property name="driverClass" value="org.h2.Driver"/>

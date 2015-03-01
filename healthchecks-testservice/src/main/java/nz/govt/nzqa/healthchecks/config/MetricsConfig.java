@@ -3,13 +3,8 @@
  * All rights reserved.
  */
 
-package nz.govt.nzqa.healthchecks;
+package nz.govt.nzqa.healthchecks.config;
 
-import java.util.SortedMap;
-
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.jvm.ClassLoadingGaugeSet;
 import com.codahale.metrics.jvm.FileDescriptorRatioGauge;
@@ -34,13 +29,6 @@ import org.springframework.context.annotation.Configuration;
 public class MetricsConfig extends MetricsConfigurerAdapter {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(MetricsConfig.class);
-
-
-    public MetricsConfig() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("[MetricsConfig.MetricsConfig] CONSTRUCTOR");
-        }
-    }
 
 
     @Override
