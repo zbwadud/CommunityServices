@@ -19,6 +19,7 @@
         <project.java.version>1.7</project.java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.maven.compiler.plugin.version>3.2</project.maven.compiler.plugin.version>
+        <project.maven.failsafe.plugin.version>2.18</project.maven.failsafe.plugin.version>
         <project.metrics.version>3.1.0</project.metrics.version>
         <project.metrics.spring.version>3.0.3</project.metrics.spring.version>
         <project.slf4j.version>1.7.7</project.slf4j.version>
@@ -33,6 +34,7 @@
         <project.cargo.version>1.4.12</project.cargo.version>
         <project.jcifs.version>1.3.14</project.jcifs.version>
         <project.jersey.version>2.16</project.jersey.version>
+        <project.jetty9x.version>9.2.7.v20150116</project.jetty9x.version>
 
         <cargo.servlet.port>7090</cargo.servlet.port>
         <cargo.rmi.port>7019</cargo.rmi.port>
@@ -265,7 +267,9 @@
                     <configuration>
                         <configuration>
                             <properties>
-                                <cargo.jvmargs>-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M
+                                <cargo.jvmargs>
+                                    -XX:+CMSClassUnloadingEnabled
+                                    -XX:MaxPermSize=512M
                                     -Dfile.encoding=UTF-8
                                 </cargo.jvmargs>
                                 <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
@@ -300,7 +304,121 @@
                         </deployables>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${project.maven.failsafe.plugin.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                            <include>**/Test*.java</include>
+                            <include>**/When*.java</include>
+                            <include>**/*TestSuite.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/*Integration*.java</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>debug</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.cargo</groupId>
+                            <artifactId>cargo-maven2-plugin</artifactId>
+                            <configuration>
+                                <configuration>
+                                    <properties>
+                                        <cargo.jvmargs>
+                                            -XX:+CMSClassUnloadingEnabled
+                                            -XX:MaxPermSize=512M
+                                            -Dfile.encoding=UTF-8
+                                            -Xdebug
+                                            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+                                            -Xnoagent
+                                            -Djava.compiler=NONE
+                                        </cargo.jvmargs>
+                                    </properties>
+                                </configuration>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>jetty9x</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.cargo</groupId>
+                            <artifactId>cargo-maven2-plugin</artifactId>
+                            <configuration>
+                                <!-- Container configuration -->
+                                <container>
+                                    <containerId>jetty9x</containerId>
+                                    <timeout>180000</timeout>
+                                    <artifactInstaller>
+                                        <groupId>org.eclipse.jetty</groupId>
+                                        <artifactId>jetty-distribution</artifactId>
+                                        <version>${project.jetty9x.version}</version>
+                                    </artifactInstaller>
+                                    <!-- These values should be the DB connection properties used during dev testing locally. -->
+                                    <systemProperties>
+                                        <healthchecks.port>9090</healthchecks.port>
+                                        <spring.profiles.active>dev</spring.profiles.active>
+                                        <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
+                                    </systemProperties>
+                                    <dependencies>
+                                        <dependency>
+                                            <groupId>net.sourceforge.jtds</groupId>
+                                            <artifactId>jtds</artifactId>
+                                        </dependency>
+                                        <dependency>
+                                            <groupId>c3p0</groupId>
+                                            <artifactId>c3p0</artifactId>
+                                        </dependency>
+                                        <dependency>
+                                            <groupId>log4j</groupId>
+                                            <artifactId>log4j</artifactId>
+                                        </dependency>
+                                    </dependencies>
+                                    <!--<log>${project.build.directory}/healthchecks-testservice.log</log>-->
+                                </container>
+                                <!-- Configuration to use with the container or the deployer -->
+                                <deployables>
+                                    <deployable>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>healthchecks-testservice</artifactId>
+                                        <type>war</type>
+                                        <properties>
+                                            <context>testservice</context>
+                                        </properties>
+                                    </deployable>
+                                </deployables>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 </project>
