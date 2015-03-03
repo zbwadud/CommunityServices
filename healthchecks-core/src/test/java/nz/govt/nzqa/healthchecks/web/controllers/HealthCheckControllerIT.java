@@ -25,6 +25,9 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 
+/**
+ * This Integration Test is not run during the verify phase of HealthChecks-Testservice.
+ */
 public class HealthCheckControllerIT extends AbstractHealthCheckTest {
 
 
