@@ -23,7 +23,7 @@ import jcifs.smb.SmbFile;
  * @author $Author$
  * @version $Revision$
  */
-public final class FileService implements Resource {
+public class FileService implements Resource {
 
 
     private Path filePath;
