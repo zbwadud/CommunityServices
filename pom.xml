@@ -18,8 +18,9 @@
     <properties>
         <project.java.version>1.7</project.java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.maven.compiler.plugin.version>3.2</project.maven.compiler.plugin.version>
-        <project.maven.failsafe.plugin.version>2.18</project.maven.failsafe.plugin.version>
+        <project.maven.failsafe.plugin.version>2.18.1</project.maven.failsafe.plugin.version>
         <project.metrics.version>3.1.0</project.metrics.version>
         <project.metrics.spring.version>3.0.3</project.metrics.spring.version>
         <project.slf4j.version>1.7.7</project.slf4j.version>
@@ -114,13 +115,6 @@
                 <artifactId>jersey-media-moxy</artifactId>
                 <version>${project.jersey.version}</version>
             </dependency>
-<!--
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-jackson</artifactId>
-                <version>${project.jersey.version}</version>
-            </dependency>
--->
             <dependency>
                 <groupId>org.glassfish.jersey.ext</groupId>
                 <artifactId>jersey-spring3</artifactId>
@@ -247,9 +241,21 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <scm>
+        <developerConnection>scm:git:ssh://git@git:7999/mqa/healthchecks.git</developerConnection>
+    </scm>
+
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.4.2</version>
+                    <configuration>
+                        <tagNameFormat>healthchecks-@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -305,23 +311,19 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${project.maven.failsafe.plugin.version}</version>
-                    <configuration>
-                        <includes>
-                            <include>**/*Test.java</include>
-                            <include>**/Test*.java</include>
-                            <include>**/When*.java</include>
-                            <include>**/*TestSuite.java</include>
-                        </includes>
-                        <excludes>
-                            <exclude>**/*Integration*.java</exclude>
-                        </excludes>
-                    </configuration>
                     <executions>
                         <execution>
+                            <id>integration-test</id>
                             <goals>
                                 <goal>integration-test</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>verify</id>
+                            <goals>
                                 <goal>verify</goal>
                             </goals>
                         </execution>
@@ -418,6 +420,17 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>

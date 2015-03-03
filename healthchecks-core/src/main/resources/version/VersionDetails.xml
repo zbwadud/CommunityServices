@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <version>
-${project.version}
+    <project>${project.version}</project>
+    <build.number>${build.number}</build.number>
 </version>
