@@ -21,6 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.maven.compiler.plugin.version>3.2</project.maven.compiler.plugin.version>
         <project.maven.failsafe.plugin.version>2.18.1</project.maven.failsafe.plugin.version>
+        <project.maven.assembly.plugin.version>2.4</project.maven.assembly.plugin.version>
         <project.metrics.version>3.1.0</project.metrics.version>
         <project.metrics.spring.version>3.0.3</project.metrics.spring.version>
         <project.slf4j.version>1.7.7</project.slf4j.version>
@@ -270,45 +271,22 @@
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>cargo-maven2-plugin</artifactId>
                     <version>${project.cargo.version}</version>
-                    <configuration>
-                        <configuration>
-                            <properties>
-                                <cargo.jvmargs>
-                                    -XX:+CMSClassUnloadingEnabled
-                                    -XX:MaxPermSize=512M
-                                    -Dfile.encoding=UTF-8
-                                </cargo.jvmargs>
-                                <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
-                                <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
-                                <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
-                                <cargo.datasource.datasource.web_eqa>
-                                    cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
-                                    cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_eqa5|
-                                    cargo.datasource.jndi=jdbc/web_eqa_db|
-                                    cargo.datasource.username=eqa_user_dev|
-                                    cargo.datasource.password=password
-                                </cargo.datasource.datasource.web_eqa>
-                                <cargo.datasource.datasource.eqa_read_write>
-                                    cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
-                                    cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_read_write_prod5|
-                                    cargo.datasource.jndi=jdbc/web_read_write_db|
-                                    cargo.datasource.username=eqa_user_dev|
-                                    cargo.datasource.password=password
-                                </cargo.datasource.datasource.eqa_read_write>
-                            </properties>
-                        </configuration>
-                        <!-- Configuration to use with the container or the deployer -->
-                        <deployables>
-                            <deployable>
-                                <groupId>${project.groupId}</groupId>
-                                <artifactId>healthchecks-testservice</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context></context>
-                                </properties>
-                            </deployable>
-                        </deployables>
-                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>start-cargo</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>start</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>stop-cargo</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>stop</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -329,99 +307,41 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${project.maven.assembly.plugin.version}</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
 
     <profiles>
-        <profile>
-            <id>debug</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.codehaus.cargo</groupId>
-                            <artifactId>cargo-maven2-plugin</artifactId>
-                            <configuration>
-                                <configuration>
-                                    <properties>
-                                        <cargo.jvmargs>
-                                            -XX:+CMSClassUnloadingEnabled
-                                            -XX:MaxPermSize=512M
-                                            -Dfile.encoding=UTF-8
-                                            -Xdebug
-                                            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
-                                            -Xnoagent
-                                            -Djava.compiler=NONE
-                                        </cargo.jvmargs>
-                                    </properties>
-                                </configuration>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
-            <id>jetty9x</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.codehaus.cargo</groupId>
-                            <artifactId>cargo-maven2-plugin</artifactId>
-                            <configuration>
-                                <!-- Container configuration -->
-                                <container>
-                                    <containerId>jetty9x</containerId>
-                                    <timeout>180000</timeout>
-                                    <artifactInstaller>
-                                        <groupId>org.eclipse.jetty</groupId>
-                                        <artifactId>jetty-distribution</artifactId>
-                                        <version>${project.jetty9x.version}</version>
-                                    </artifactInstaller>
-                                    <!-- These values should be the DB connection properties used during dev testing locally. -->
-                                    <systemProperties>
-                                        <healthchecks.port>9090</healthchecks.port>
-                                        <spring.profiles.active>dev</spring.profiles.active>
-                                        <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
-                                    </systemProperties>
-                                    <dependencies>
-                                        <dependency>
-                                            <groupId>net.sourceforge.jtds</groupId>
-                                            <artifactId>jtds</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>c3p0</groupId>
-                                            <artifactId>c3p0</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>log4j</groupId>
-                                            <artifactId>log4j</artifactId>
-                                        </dependency>
-                                    </dependencies>
-                                    <!--<log>${project.build.directory}/healthchecks-testservice.log</log>-->
-                                </container>
-                                <!-- Configuration to use with the container or the deployer -->
-                                <deployables>
-                                    <deployable>
-                                        <groupId>${project.groupId}</groupId>
-                                        <artifactId>healthchecks-testservice</artifactId>
-                                        <type>war</type>
-                                        <properties>
-                                            <context>testservice</context>
-                                        </properties>
-                                    </deployable>
-                                </deployables>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
         <profile>
             <id>release</id>
             <build>
