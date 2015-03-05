@@ -130,11 +130,6 @@
                 <configuration>
                     <configuration>
                         <properties>
-                            <cargo.jvmargs>
-                                -XX:+CMSClassUnloadingEnabled
-                                -XX:MaxPermSize=512M
-                                -Dfile.encoding=UTF-8
-                            </cargo.jvmargs>
                             <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
                             <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
                             <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
@@ -159,13 +154,14 @@
         </plugins>
     </build>
     <profiles>
-        <!-- This profile is for debugging the Cargo Jetty Container.
-         I have found this is the only successful way to attach a debugger
-         to the running container when started by Maven.
-         When specified with jetty9x profile, this profiles value for cargo.jvmargs
-         will override the jetty9x cargo.jvmargs profile value -->
+        <!-- This profile configures the Cargo Jetty Container
+        Runtime dependencies are specified, system properties and what should be deployed.
+        Refer above for other default startup properties that are supplied and used during testing. -->
         <profile>
-            <id>debug</id>
+            <id>jetty9x</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -186,27 +182,6 @@
                                         </cargo.jvmargs>
                                     </properties>
                                 </configuration>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <!-- This profile configures the Cargo Jetty Container
-        Runtime dependencies are specified, system properties and what should be deployed.
-        Refer above for other default startup properties that are supplied and used during testing. -->
-        <profile>
-            <id>jetty9x</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.codehaus.cargo</groupId>
-                            <artifactId>cargo-maven2-plugin</artifactId>
-                            <configuration>
                                 <!-- Container configuration -->
                                 <container>
                                     <containerId>jetty9x</containerId>
@@ -220,8 +195,7 @@
                                     <systemProperties>
                                         <healthchecks.port>9090</healthchecks.port>
                                         <spring.profiles.active>dev</spring.profiles.active>
-                                        <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest
-                                        </healthcheck.testservice.rest.uri>
+                                        <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
                                     </systemProperties>
                                     <dependencies>
                                         <dependency>

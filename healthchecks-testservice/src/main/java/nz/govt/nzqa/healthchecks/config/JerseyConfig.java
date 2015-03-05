@@ -7,7 +7,6 @@ package nz.govt.nzqa.healthchecks.config;
 
 import nz.govt.nzqa.healthchecks.web.controllers.HealthCheckController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;

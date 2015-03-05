@@ -20,14 +20,16 @@
     <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
     <context:property-placeholder location="classpath:cifs_smb/client.properties"/>
 
-    <bean id="webEqaDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
-        <constructor-arg ref="webEqaDatabase"/>
-    </bean>
-    <bean id="webReadWriteDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.DatabaseHealthCheck">
-        <constructor-arg ref="webReadWriteDatabase"/>
-    </bean>
-    <bean id="fileServiceHealthCheck" class="nz.govt.nzqa.healthchecks.library.FileServiceHealthCheck">
-        <constructor-arg ref="fileService"/>
-    </bean>
+    <metrics:metric-registry id="nzqaMetricsRegistry"/>
+    <metrics:health-check-registry id="nzqaHealthChecksRegistry"/>
+
+    <metrics:annotation-driven metric-registry="nzqaMetricsRegistry" health-check-registry="nzqaHealthChecksRegistry"/>
+
+    <metrics:register metric-registry="nzqaMetricsRegistry">
+        <bean metrics:name="jvm.gc" class="com.codahale.metrics.jvm.GarbageCollectorMetricSet"/>
+        <bean metrics:name="jvm.memory" class="com.codahale.metrics.jvm.MemoryUsageGaugeSet"/>
+        <bean metrics:name="jvm.thread-states" class="com.codahale.metrics.jvm.ThreadStatesGaugeSet"/>
+        <bean metrics:name="jvm.fd.usage" class="com.codahale.metrics.jvm.FileDescriptorRatioGauge"/>
+    </metrics:register>
 
 </beans>
