@@ -144,6 +144,59 @@
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <configuration>
+                    <!-- Container configuration -->
+                    <container>
+                        <containerId>jetty9x</containerId>
+                        <timeout>180000</timeout>
+                        <artifactInstaller>
+                            <groupId>org.eclipse.jetty</groupId>
+                            <artifactId>jetty-distribution</artifactId>
+                            <version>${project.jetty9x.version}</version>
+                        </artifactInstaller>
+                        <!-- These values should be the DB connection properties used during dev testing locally. -->
+                        <systemProperties>
+                            <spring.profiles.active>dev</spring.profiles.active>
+                            <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest
+                            </healthcheck.testservice.rest.uri>
+                        </systemProperties>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sourceforge.jtds</groupId>
+                                <artifactId>jtds</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>c3p0</groupId>
+                                <artifactId>c3p0</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>jcifs</groupId>
+                                <artifactId>jcifs</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>log4j</groupId>
+                                <artifactId>log4j</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-log4j12</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>commons-logging</groupId>
+                                <artifactId>commons-logging</artifactId>
+                            </dependency>
+                        </dependencies>
+                    </container>
+                    <!-- Configuration to use with the container or the deployer -->
+                    <deployables>
+                        <deployable>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>healthchecks-testservice</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>testservice</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
                     <configuration>
                         <properties>
                             <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
@@ -174,10 +227,7 @@
         Runtime dependencies are specified, system properties and what should be deployed.
         Refer above for other default startup properties that are supplied and used during testing. -->
         <profile>
-            <id>jetty9x</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <id>debug-jetty9x</id>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -198,58 +248,33 @@
                                         </cargo.jvmargs>
                                     </properties>
                                 </configuration>
-                                <!-- Container configuration -->
-                                <container>
-                                    <containerId>jetty9x</containerId>
-                                    <timeout>180000</timeout>
-                                    <artifactInstaller>
-                                        <groupId>org.eclipse.jetty</groupId>
-                                        <artifactId>jetty-distribution</artifactId>
-                                        <version>${project.jetty9x.version}</version>
-                                    </artifactInstaller>
-                                    <!-- These values should be the DB connection properties used during dev testing locally. -->
-                                    <systemProperties>
-                                        <spring.profiles.active>dev</spring.profiles.active>
-                                        <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
-                                    </systemProperties>
-                                    <dependencies>
-                                        <dependency>
-                                            <groupId>net.sourceforge.jtds</groupId>
-                                            <artifactId>jtds</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>c3p0</groupId>
-                                            <artifactId>c3p0</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>jcifs</groupId>
-                                            <artifactId>jcifs</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>log4j</groupId>
-                                            <artifactId>log4j</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>org.slf4j</groupId>
-                                            <artifactId>slf4j-log4j12</artifactId>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>commons-logging</groupId>
-                                            <artifactId>commons-logging</artifactId>
-                                        </dependency>
-                                    </dependencies>
-                                </container>
-                                <!-- Configuration to use with the container or the deployer -->
-                                <deployables>
-                                    <deployable>
-                                        <groupId>${project.groupId}</groupId>
-                                        <artifactId>healthchecks-testservice</artifactId>
-                                        <type>war</type>
-                                        <properties>
-                                            <context>testservice</context>
-                                        </properties>
-                                    </deployable>
-                                </deployables>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>jetty9x</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.cargo</groupId>
+                            <artifactId>cargo-maven2-plugin</artifactId>
+                            <configuration>
+                                <configuration>
+                                    <properties>
+                                        <cargo.jvmargs>
+                                            -XX:+CMSClassUnloadingEnabled
+                                            -XX:MaxPermSize=512M
+                                            -Dfile.encoding=UTF-8
+                                        </cargo.jvmargs>
+                                    </properties>
+                                </configuration>
                             </configuration>
                         </plugin>
                     </plugins>
