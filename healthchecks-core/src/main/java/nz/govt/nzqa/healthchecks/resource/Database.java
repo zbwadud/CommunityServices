@@ -44,6 +44,7 @@ public class Database implements Resource {
             return statement.execute("SELECT 1");
         }
         catch (SQLException e) {
+
             throw new ResourceNotAvailableException(
                     "There was a problem while accessing the database " + dataSource, e);
         }
@@ -54,9 +55,6 @@ public class Database implements Resource {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Database - ");
         sb.append("eqaDataSource=").append(dataSource);
-//        sb.append("url=").append(eqaDataSource.getUrl());
-//        sb.append("driver=").append(eqaDataSource.getDriver().getClass().getName());
-//        sb.append("username=").append(eqaDataSource.getUsername());
         sb.append('}');
         return sb.toString();
     }

@@ -37,21 +37,28 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
+            <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring3</artifactId>
-        </dependency>
+        <!--
+                <dependency>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-moxy</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.ext</groupId>
+                    <artifactId>jersey-spring3</artifactId>
+                </dependency>
+        -->
 
         <!-- Spring 4 Libs -->
         <dependency>
@@ -79,14 +86,23 @@
             <version>0.9.0-pre5</version>
         </dependency>
         <dependency>
+            <groupId>jcifs</groupId>
+            <artifactId>jcifs</artifactId>
+        </dependency>
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
         <dependency>
-            <groupId>jcifs</groupId>
-            <artifactId>jcifs</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
 
         <!-- Integration Testing -->
         <dependency>
@@ -193,7 +209,6 @@
                                     </artifactInstaller>
                                     <!-- These values should be the DB connection properties used during dev testing locally. -->
                                     <systemProperties>
-                                        <healthchecks.port>9090</healthchecks.port>
                                         <spring.profiles.active>dev</spring.profiles.active>
                                         <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
                                     </systemProperties>
@@ -207,12 +222,20 @@
                                             <artifactId>c3p0</artifactId>
                                         </dependency>
                                         <dependency>
+                                            <groupId>jcifs</groupId>
+                                            <artifactId>jcifs</artifactId>
+                                        </dependency>
+                                        <dependency>
                                             <groupId>log4j</groupId>
                                             <artifactId>log4j</artifactId>
                                         </dependency>
                                         <dependency>
-                                            <groupId>jcifs</groupId>
-                                            <artifactId>jcifs</artifactId>
+                                            <groupId>org.slf4j</groupId>
+                                            <artifactId>slf4j-log4j12</artifactId>
+                                        </dependency>
+                                        <dependency>
+                                            <groupId>commons-logging</groupId>
+                                            <artifactId>commons-logging</artifactId>
                                         </dependency>
                                     </dependencies>
                                 </container>

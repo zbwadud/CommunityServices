@@ -35,7 +35,7 @@
         <project.servlet.api.version>3.0.1</project.servlet.api.version>
         <project.cargo.version>1.4.12</project.cargo.version>
         <project.jcifs.version>1.3.14</project.jcifs.version>
-        <project.jersey.version>2.16</project.jersey.version>
+        <project.jersey.version>2.17</project.jersey.version>
         <project.jetty9x.version>9.2.7.v20150116</project.jetty9x.version>
 
         <cargo.servlet.port>7090</cargo.servlet.port>
@@ -108,7 +108,7 @@
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
-                <artifactId>jersey-server</artifactId>
+                <artifactId>jersey-client</artifactId>
                 <version>${project.jersey.version}</version>
             </dependency>
             <dependency>
@@ -129,11 +129,6 @@
             </dependency>
 
             <!-- Logging -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${project.slf4j.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
@@ -176,14 +171,14 @@
                 <version>${project.springockito.version}</version>
                 <scope>test</scope>
             </dependency>
-
-            <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${project.spring.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>

@@ -4,6 +4,8 @@
  */
 package nz.govt.nzqa.healthchecks.web.controllers;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.client.ClientResponseContext;
+import javax.ws.rs.client.ClientResponseFilter;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,13 +31,12 @@ import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.server.ExtendedResourceContext;
 import org.glassfish.jersey.server.model.Resource;
 import org.glassfish.jersey.server.model.ResourceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-//        import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 
 /**
@@ -50,10 +58,11 @@ public class HealthCheckController {
     @Autowired
     private HealthCheckRegistry healthChecks;
 
+    private static final String METRICS_URI = "../metrics/metrics";
+
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-//    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response doMenu() {
         StringBuilder view = new StringBuilder().append("<html>\n"
                 + "<body>\n"
@@ -67,7 +76,6 @@ public class HealthCheckController {
     @GET
     @Path("/status")
     @Produces(MediaType.APPLICATION_JSON)
-//    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response doOverallStatus() {
         final Map<String, HealthCheck.Result> results = healthChecks.runHealthChecks();
 
@@ -112,7 +120,6 @@ public class HealthCheckController {
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
-//    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response list() throws JsonProcessingException {
         SortedSet<String> names = healthChecks.getNames();
         Map<String, String> namesMap = new HashMap<>();
@@ -123,14 +130,13 @@ public class HealthCheckController {
         };
         ObjectMapper mapper = new ObjectMapper();
         String resultString = mapper.writeValueAsString(namesMap);
-        return Response.status(Status.OK).entity(resultString).build();
+        return Response.status(Status.OK).entity(resultString).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
 
 
     @GET
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-//    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response doCheck(@PathParam("name") String checkName) {
         HealthCheck.Result result = healthChecks.runHealthCheck(checkName);
         Status status = (result.isHealthy() ? Response.Status.OK : Response.Status.INTERNAL_SERVER_ERROR);
@@ -138,12 +144,25 @@ public class HealthCheckController {
         return Response.status(status).entity(result).build();
     }
 
-/*
     @GET
     @Path("/metrics")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response metrics(Request request) throws JsonProcessingException {
+    public Response metrics() throws JsonProcessingException {
+        URI baseUri = uriInfo.getBaseUri();
+
+        ClientConfig clientConfig = new ClientConfig();
+        Client client = ClientBuilder.newClient(clientConfig);
+
+        WebTarget target = client.target(baseUri);
+        WebTarget metricsTarget = target.path(METRICS_URI);
+        metricsTarget.queryParam("pretty", true);
+        Response metricsResponse = metricsTarget.request(MediaType.TEXT_PLAIN_TYPE).get();
+        return Response
+                .status(metricsResponse.getStatus())
+                .entity(metricsResponse.readEntity(String.class))
+                .type(metricsResponse.getMediaType())
+                .build();
+
     }
-*/
 }
 

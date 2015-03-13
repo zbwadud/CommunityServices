@@ -32,6 +32,7 @@ public class FileService implements Resource {
     private String username;
     private String password;
 
+    private String toString;
     // url needs to be of the form:
     // smb://[[[domain;]username[:password]@]server[:port]/[[share/[dir/]file]]][?[param=value[param2=value2[...]]]
 
@@ -52,6 +53,7 @@ public class FileService implements Resource {
                     }
                 } else {
                     File file = filePath.toFile();
+                    this.toString = file.toString();
                     return file.exists() && file.canRead();
                 }
             } else {
@@ -61,6 +63,7 @@ public class FileService implements Resource {
                         .append(password).append('@')
                         .append(baseUrl).append('/')
                         .toString();
+                this.toString = smbPath;
                 SmbFile smbFile = new SmbFile(smbPath);
                 return smbFile.canRead();
             }
@@ -103,6 +106,6 @@ public class FileService implements Resource {
     @Override
     public String toString() {
 
-        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).toString();
+        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(toString).toString();
     }
 }

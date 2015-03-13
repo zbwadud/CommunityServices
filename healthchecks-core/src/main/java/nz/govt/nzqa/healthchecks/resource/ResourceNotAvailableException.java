@@ -13,28 +13,8 @@ package nz.govt.nzqa.healthchecks.resource;
  */
 public class ResourceNotAvailableException extends Exception {
 
-    private ResourceNotAvailableException() {
-        super();
-    }
-
-
-    private ResourceNotAvailableException(String message) {
-        super(message);
-    }
-
 
     public ResourceNotAvailableException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-
-    private ResourceNotAvailableException(Throwable cause) {
-        super(cause);
-    }
-
-
-    private ResourceNotAvailableException(String message, Throwable cause, boolean enableSuppression,
-            boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

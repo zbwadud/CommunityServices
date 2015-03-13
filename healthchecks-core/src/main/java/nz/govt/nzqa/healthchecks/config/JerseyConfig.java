@@ -5,9 +5,13 @@
 
 package nz.govt.nzqa.healthchecks.config;
 
+import javax.xml.bind.Marshaller;
+
 import nz.govt.nzqa.healthchecks.web.controllers.HealthCheckController;
 
-import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
+import org.eclipse.persistence.jaxb.JAXBContextProperties;
+import org.eclipse.persistence.jaxb.MarshallerProperties;
+import org.glassfish.jersey.CommonProperties;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.slf4j.Logger;
@@ -37,7 +41,12 @@ public class JerseyConfig extends ResourceConfig {
         // JAX-RS package scan
         register(HealthCheckController.class);
         register(RequestContextFilter.class);
-        register(MOXyJsonProvider.class);
+        Object property = getProperty(CommonProperties.FEATURE_AUTO_DISCOVERY_DISABLE);
+        property(JAXBContextProperties.JSON_INCLUDE_ROOT, true);
+        property(MarshallerProperties.JSON_INCLUDE_ROOT, true);
+        property(Marshaller.JAXB_FORMATTED_OUTPUT, true);
     }
+
+
 
 }
