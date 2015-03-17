@@ -20,10 +20,12 @@ public class FileServiceHealthCheck extends HealthCheck {
 
 
     private final Resource resource;
+    private final String errorMessage;
 
 
-    public FileServiceHealthCheck(Resource resource) {
+    public FileServiceHealthCheck(Resource resource, String errorMessage) {
         this.resource = resource;
+        this.errorMessage = errorMessage;
     }
 
 
@@ -34,7 +36,7 @@ public class FileServiceHealthCheck extends HealthCheck {
             return Result.healthy(resource.toString());
         }
         else {
-            return Result.unhealthy("Cannot access file service " + resource.toString());
+            return Result.unhealthy(this.errorMessage + ": " + resource.toString());
         }
     }
 }
