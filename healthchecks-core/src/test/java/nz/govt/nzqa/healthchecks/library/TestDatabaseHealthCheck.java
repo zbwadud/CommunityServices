@@ -5,11 +5,6 @@
 
 package nz.govt.nzqa.healthchecks.library;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-
 import nz.govt.nzqa.healthchecks.AbstractHealthCheckTest;
 import nz.govt.nzqa.healthchecks.resource.Database;
 
@@ -20,10 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
@@ -42,11 +37,11 @@ public class TestDatabaseHealthCheck extends AbstractHealthCheckTest {
 
     @Autowired
     @Qualifier("webEqaDatabaseHealthCheck")
-    private DatabaseHealthCheck webEqaDatabaseHealthCheck;
+    private NZQAHealthCheck webEqaDatabaseHealthCheck;
 
     @Autowired
     @Qualifier("webReadWriteDatabaseHealthCheck")
-    private DatabaseHealthCheck webReadWriteDatabaseHealthCheck;
+    private NZQAHealthCheck webReadWriteDatabaseHealthCheck;
 
     @Autowired
     @Qualifier("webEqaDatabase")
@@ -56,6 +51,8 @@ public class TestDatabaseHealthCheck extends AbstractHealthCheckTest {
     @Qualifier("webReadWriteDatabase")
     private Database webReadWriteDatabase;
 
+    @Value("${database.unhealthy.message}")
+    private String databaseUnhealthyMessage;
 
     @Before
     public void before() {
@@ -82,27 +79,30 @@ public class TestDatabaseHealthCheck extends AbstractHealthCheckTest {
     @Test
     public void testMultipleDatabasesAreHealthy() throws Exception {
 
+        HealthCheck.Result expected = HealthCheck.Result.healthy(webEqaDatabase.toString());
         when(webEqaDatabase.ping()).thenReturn(true);
         assertThat(webEqaDatabaseHealthCheck.check().isHealthy(), is(true));
-        assertThat(webEqaDatabaseHealthCheck.check(), is(HealthCheckTypes.HEALTHY));
+        assertThat(webEqaDatabaseHealthCheck.check(), is(expected));
+        expected = HealthCheck.Result.healthy(webReadWriteDatabase.toString());
         when(webReadWriteDatabase.ping()).thenReturn(true);
         assertThat(webReadWriteDatabaseHealthCheck.check().isHealthy(), is(true));
-        assertThat(webReadWriteDatabaseHealthCheck.check(), is(HealthCheckTypes.HEALTHY));
+        assertThat(webReadWriteDatabaseHealthCheck.check(), is(expected));
     }
 
 
     @Test
     public void testMultipleDatabasesAreNotHealthy() throws Exception {
 
+        HealthCheck.Result expected = HealthCheck.Result.unhealthy(
+                databaseUnhealthyMessage + ": " + webEqaDatabase.toString());
         when(webEqaDatabase.ping()).thenReturn(false);
-        when(webEqaDatabase.toString()).thenReturn("database");
         assertThat(webEqaDatabaseHealthCheck.check().isHealthy(), is(false));
-        assertThat(webEqaDatabaseHealthCheck.check(), is(HealthCheckTypes.UNHEALTHY));
+        assertThat(webEqaDatabaseHealthCheck.check(), is(expected));
 
+        expected = HealthCheck.Result.unhealthy(databaseUnhealthyMessage + ": " + webReadWriteDatabase.toString());
         when(webReadWriteDatabase.ping()).thenReturn(false);
-        when(webReadWriteDatabase.toString()).thenReturn("database");
         assertThat(webReadWriteDatabaseHealthCheck.check().isHealthy(), is(false));
-        assertThat(webReadWriteDatabaseHealthCheck.check(), is(HealthCheckTypes.UNHEALTHY));
+        assertThat(webReadWriteDatabaseHealthCheck.check(), is(expected));
     }
 
 

@@ -5,8 +5,6 @@
 
 package nz.govt.nzqa.healthchecks.library;
 
-import java.net.URI;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
@@ -37,14 +35,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 public class TestFileServiceHealthCheck extends AbstractHealthCheckTest {
 
+    public static final String VERSION_VERSION_DETAILS_XML = "version/VersionDetails.xml";
+    private static final String FILE_SERVICE_ERROR_MESSAGE = "File service unavailable";
+
     @Autowired
-    FileServiceHealthCheck fileServiceHealthCheck;
+    NZQAHealthCheck fileServiceHealthCheck;
 
     @Autowired
     FileService fileService;
 
-
-    Path path;
 
     @Value("${secure.cifs.cmsAssetsClient.user}")
     String cifsCMSAssetsUserId;
@@ -62,7 +61,6 @@ public class TestFileServiceHealthCheck extends AbstractHealthCheckTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        path = FileSystems.getDefault().getPath("version/VersionDetails.xml");
         SimpleNamingContextBuilder context = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
         context.bind("java:comp/env/cifsCMSAssetsUserId", cifsCMSAssetsUserId);
         context.bind("java:comp/env/cifsCMSAssetsPassword", cifsCMSAssetsPassword);
@@ -95,8 +93,8 @@ public class TestFileServiceHealthCheck extends AbstractHealthCheckTest {
     @Test
     public void fileServiceIsHealthyAccessingAFile() throws Exception {
         fileService = new FileService();
-        fileService.setFilePath(path);
-        fileServiceHealthCheck = new FileServiceHealthCheck(fileService);
+        fileService.setFilePath(FileSystems.getDefault().getPath(VERSION_VERSION_DETAILS_XML));
+        fileServiceHealthCheck = new NZQAHealthCheck(fileService, FILE_SERVICE_ERROR_MESSAGE);
         HealthCheck.Result check = fileServiceHealthCheck.check();
         assertThat("", check.isHealthy(), is(true));
     }
@@ -106,7 +104,7 @@ public class TestFileServiceHealthCheck extends AbstractHealthCheckTest {
     public void fileServiceIsUnHealthyAccessingAFile() throws Exception {
         fileService = new FileService();
         fileService.setFilePath(FileSystems.getDefault().getPath("VersionDetails.xml"));
-        fileServiceHealthCheck = new FileServiceHealthCheck(fileService);
+        fileServiceHealthCheck = new NZQAHealthCheck(fileService, FILE_SERVICE_ERROR_MESSAGE);
         HealthCheck.Result check = fileServiceHealthCheck.check();
         assertThat("File Service is unavailable: " + fileService, check.isHealthy(), is(false));
     }
@@ -121,7 +119,7 @@ public class TestFileServiceHealthCheck extends AbstractHealthCheckTest {
                 .setBaseUrl(cifsCMSAssetsBaseUrl)
                 .setUsername(cifsCMSAssetsUserId)
                 .setPassword(cifsCMSAssetsPassword);
-        fileServiceHealthCheck = new FileServiceHealthCheck(fileService);
+        fileServiceHealthCheck = new NZQAHealthCheck(fileService, FILE_SERVICE_ERROR_MESSAGE);
         HealthCheck.Result check = fileServiceHealthCheck.check();
         assertThat(check.isHealthy(), is(true));
 

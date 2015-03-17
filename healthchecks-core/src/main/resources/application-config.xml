@@ -14,11 +14,10 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
        http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd">
 
-    <import resource="classpath:services-config.xml"/>
-
     <context:annotation-config/>
     <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
-    <context:property-placeholder location="classpath:cifs_smb/client.properties"/>
+
+    <context:property-placeholder location="classpath:cifs_smb/client.properties,classpath:messages/errors.properties"/>
 
     <metrics:metric-registry id="nzqaMetricsRegistry"/>
     <metrics:health-check-registry id="nzqaHealthChecksRegistry"/>
@@ -31,5 +30,38 @@
         <bean metrics:name="jvm.thread-states" class="com.codahale.metrics.jvm.ThreadStatesGaugeSet"/>
         <bean metrics:name="jvm.fd.usage" class="com.codahale.metrics.jvm.FileDescriptorRatioGauge"/>
     </metrics:register>
+
+    <!-- nz.govt.nzqa.healthchecks.resource.Resource Impl's-->
+    <bean id="webEqaDatabase" class="nz.govt.nzqa.healthchecks.resource.Database">
+        <property name="dataSource" ref="webEqaDataSource"/>
+    </bean>
+    <bean id="webReadWriteDatabase" class="nz.govt.nzqa.healthchecks.resource.Database">
+        <property name="dataSource" ref="eqaWebReadWriteDataSource"/>
+    </bean>
+    <bean id="fileService" class="nz.govt.nzqa.healthchecks.resource.FileService">
+        <property name="username" value="${secure.cifs.cmsAssetsClient.user}"/>
+        <property name="password" value="${secure.cifs.cmsAssetsClient.password}"/>
+        <property name="baseUrl" value="${secure.cifs.cmsAssetsClient.url}"/>
+        <property name="domain" value="${secure.cifs.cmsAssetsClient.domain}"/>
+    </bean>
+
+    <!-- com.codahale.metrics.health.HealthCheck Impl's -->
+    <bean id="webEqaDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="webEqaDatabase"/>
+        <constructor-arg value="${database.unhealthy.message}"/>
+    </bean>
+    <bean id="webReadWriteDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="webReadWriteDatabase"/>
+        <constructor-arg value="${database.unhealthy.message}"/>
+    </bean>
+    <bean id="fileServiceHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="fileService"/>
+        <constructor-arg value="${fileservice.unhealthy.message}"/>
+    </bean>
+
+    <beans profile="default">
+        <jee:jndi-lookup id="webEqaDataSource" jndi-name="jdbc/web_eqa_db"/>
+        <jee:jndi-lookup id="eqaWebReadWriteDataSource" jndi-name="jdbc/web_read_write_db"/>
+    </beans>
 
 </beans>
