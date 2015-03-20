@@ -31,34 +31,26 @@
             <type>test-jar</type>
         </dependency>
 
-        <!-- Servlet API -->
+        <!-- Servlet/REST/JAX-RS -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${project.jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${project.jersey.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
-            <scope>compile</scope>
+            <version>${project.jersey.version}</version>
         </dependency>
-        <!--
-                <dependency>
-                    <groupId>org.glassfish.jersey.containers</groupId>
-                    <artifactId>jersey-container-servlet</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.glassfish.jersey.core</groupId>
-                    <artifactId>jersey-client</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.glassfish.jersey.media</groupId>
-                    <artifactId>jersey-media-moxy</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.glassfish.jersey.ext</groupId>
-                    <artifactId>jersey-spring3</artifactId>
-                </dependency>
-        -->
 
         <!-- Spring 4 Libs -->
         <dependency>
@@ -139,6 +131,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>HealthCheckControllerIT.java</include>
+                    </includes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
@@ -156,8 +153,7 @@
                         <!-- These values should be the DB connection properties used during dev testing locally. -->
                         <systemProperties>
                             <spring.profiles.active>dev</spring.profiles.active>
-                            <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest
-                            </healthcheck.testservice.rest.uri>
+                            <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
                         </systemProperties>
                         <dependencies>
                             <dependency>

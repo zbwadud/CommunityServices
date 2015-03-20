@@ -63,7 +63,7 @@ public class FileService implements Resource {
                         .append(password).append('@')
                         .append(baseUrl).append('/')
                         .toString();
-                this.toString = smbPath;
+                this.toString = smbPathToString();
                 SmbFile smbFile = new SmbFile(smbPath);
                 return smbFile.canRead();
             }
@@ -107,5 +107,16 @@ public class FileService implements Resource {
     public String toString() {
 
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(toString).toString();
+    }
+
+
+    private String smbPathToString() {
+
+        return new StringBuilder("smb://")
+                .append(domain).append(';')
+                .append("******:")
+                .append("******@")
+                .append(baseUrl).append('/')
+                .toString();
     }
 }
