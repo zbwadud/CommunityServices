@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nz.govt.nzqa.healthchecks</groupId>
@@ -13,7 +13,8 @@
     <modules>
         <module>healthchecks-core</module>
         <module>healthchecks-testservice</module>
-    </modules>
+    <module>healthchecks-reporting</module>
+  </modules>
 
     <properties>
         <project.java.version>1.7</project.java.version>
@@ -72,6 +73,14 @@
                 <version>${project.metrics.spring.version}</version>
                 <exclusions>
                     <exclusion>
+                        <groupId>io.dropwizard.metrics</groupId>
+                        <artifactId>metrics-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.dropwizard.metrics</groupId>
+                        <artifactId>metrics-healthchecks</artifactId>
+                    </exclusion>
+                    <exclusion>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-aop</artifactId>
                     </exclusion>
@@ -91,7 +100,38 @@
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-context-support</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
+                    </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${project.spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${project.spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${project.spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${project.spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${project.spring.version}</version>
             </dependency>
 
             <!-- Servlet/REST/JAX-RS -->
@@ -105,16 +145,25 @@
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
                 <version>${project.jersey.version}</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>jersey-media-jaxb</artifactId>
+                        <groupId>org.glassfish.jersey.media</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-client</artifactId>
                 <version>${project.jersey.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-moxy</artifactId>
                 <version>${project.jersey.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.ext</groupId>
@@ -140,6 +189,10 @@
                     <exclusion>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-context-support</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -192,33 +245,6 @@
                 <artifactId>spring-test</artifactId>
                 <version>${project.spring.version}</version>
                 <scope>test</scope>
-            </dependency>
-
-            <!-- Spring -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${project.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${project.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${project.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${project.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${project.spring.version}</version>
             </dependency>
 
             <!-- Common Utilities Libraries -->

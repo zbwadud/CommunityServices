@@ -45,28 +45,27 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jersey-media-jaxb</artifactId>
-                    <groupId>org.glassfish.jersey.media</groupId>
-                </exclusion>
-            </exclusions>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-spring3</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Libs expected to be provided by the container -->
