@@ -13,7 +13,7 @@
     <modules>
         <module>healthchecks-core</module>
         <module>healthchecks-testservice</module>
-    <module>healthchecks-reporting</module>
+    <!--<module>healthchecks-reporting</module>-->
   </modules>
 
     <properties>
