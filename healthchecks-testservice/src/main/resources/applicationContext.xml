@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2015 New Zealand Qualifications Authority.
+  ~ All rights reserved.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:metrics="http://www.ryantenney.com/schema/metrics"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="nz.govt.nzqa.healthchecks"/>
+
+
+    <metrics:metric-registry id="nzqaMetricsRegistry"/>
+    <metrics:health-check-registry id="nzqaHealthChecksRegistry"/>
+
+    <metrics:annotation-driven metric-registry="nzqaMetricsRegistry" health-check-registry="nzqaHealthChecksRegistry"/>
+
+    <metrics:register metric-registry="nzqaMetricsRegistry">
+        <bean metrics:name="jvm.gc" class="com.codahale.metrics.jvm.GarbageCollectorMetricSet"/>
+        <bean metrics:name="jvm.memory" class="com.codahale.metrics.jvm.MemoryUsageGaugeSet"/>
+        <bean metrics:name="jvm.thread-states" class="com.codahale.metrics.jvm.ThreadStatesGaugeSet"/>
+        <bean metrics:name="jvm.fd.usage" class="com.codahale.metrics.jvm.FileDescriptorRatioGauge"/>
+    </metrics:register>
+
+    <bean id="databaseErrorMessage" class="java.lang.String">
+        <constructor-arg value="There was a problem while accessing the database"/>
+    </bean>
+
+    <!-- Resource implementations that implement the ping method that is called by the NZQAHealthCheck -->
+    <bean id="webEqaDatabase" class="nz.govt.nzqa.healthchecks.resource.Database">
+        <property name="dataSource" ref="webEqaDataSource"/>
+    </bean>
+    <bean id="webReadWriteDatabase" class="nz.govt.nzqa.healthchecks.resource.Database">
+        <property name="dataSource" ref="eqaWebReadWriteDataSource"/>
+    </bean>
+    <bean id="webReadDatabase" class="nz.govt.nzqa.healthchecks.resource.Database">
+        <property name="dataSource" ref="eqaWebReadOnlyDataSource"/>
+    </bean>
+
+    <bean id="fileService" class="nz.govt.nzqa.healthchecks.resource.FileService">
+        <property name="username" ref="cmsAssetsUserId"/>
+        <property name="password" ref="cmsAssetsPassword"/>
+        <property name="baseUrl" ref="cmsAssetsBaseUrl"/>
+        <property name="domain" ref="cmsAssetsDomain"/>
+    </bean>
+<!-- Comment to later use
+    <bean id="servicePingLeap" class="nz.govt.nzqa.learnerextranet.persistence.ibatis.remote.service.ServicePingLeap"/>
+-->
+    <bean id="remoteService" class="nz.govt.nzqa.healthchecks.resource.RemoteService">
+        <property name="principal" ref="eqaAppServerPrincipal"/>
+        <property name="credentials" ref="eqaAppServerCredentials"/>
+        <property name="contextFactory" ref="eqaAppServerContextFactory"/>
+        <property name="serverUrl" ref="eqaAppServerUrl"/>
+        <property name="protocol" ref="eqaAppServerSecurityProtocol"/>
+    </bean>
+    
+    
+    <!-- com.codahale.metrics.health.HealthCheck Impl's -->
+    <bean id="webEqaDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck" >
+        <constructor-arg ref="webEqaDatabase"/>
+        <constructor-arg ref="databaseErrorMessage"/>
+    </bean>
+    <bean id="webReadWriteDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="webReadWriteDatabase"/>
+        <constructor-arg ref="databaseErrorMessage"/>
+    </bean>
+    <bean id="webReadOnlyDatabaseHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="webReadDatabase"/>
+        <constructor-arg ref="databaseErrorMessage"/>
+    </bean>
+
+    <bean id="fileServiceHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="fileService"/>
+        <constructor-arg value="Problem while checking file service access"/>
+    </bean>
+<!-- Use later
+    <bean id="thirdPartyHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="servicePingLeap"/>
+        <constructor-arg value="Problem while accessing LEAP Service"/>
+    </bean>
+-->
+    <bean id="thirdPartyHealthCheck" class="nz.govt.nzqa.healthchecks.library.NZQAHealthCheck">
+        <constructor-arg ref="remoteService"/>
+        <constructor-arg value="Problem while accessing LEAP Service"/>
+    </bean>
+    
+    <beans profile="default">
+        <!-- JNDI names for Database DataSources provided by Container -->
+        <jee:jndi-lookup id="webEqaDataSource" jndi-name="jdbc/web_eqa_db"/>
+        <jee:jndi-lookup id="eqaWebReadWriteDataSource" jndi-name="jdbc/web_read_write_db"/>
+        <jee:jndi-lookup id="eqaWebReadOnlyDataSource" jndi-name="jdbc/web_read_only_db"/>
+        <!--Properties for connecting to CIFS/SMB eDirectory used by the CMS for assets supplied by Container-->
+        <jee:jndi-lookup id="cmsAssetsUserId" jndi-name="cifsCMSAssetsUserId"/>
+        <jee:jndi-lookup id="cmsAssetsPassword" jndi-name="cifsCMSAssetsPassword"/>
+        <jee:jndi-lookup id="cmsAssetsBaseUrl" jndi-name="cifsCMSAssetsBaseUrl"/>
+        <jee:jndi-lookup id="cmsAssetsDomain" jndi-name="cifsCMSAssetsDomain"/>
+         <!--Properties for connecting to Remote Server supplied by Container-->
+        <jee:jndi-lookup id="eqaAppServerPrincipal" jndi-name="eqaAppServerPrincipal"/>
+        <jee:jndi-lookup id="eqaAppServerCredentials" jndi-name="eqaAppServerCredentials"/>
+        <jee:jndi-lookup id="eqaAppServerContextFactory" jndi-name="eqaAppServerContextFactory"/>
+        <jee:jndi-lookup id="eqaAppServerUrl" jndi-name="eqaAppServerUrl"/>
+        <jee:jndi-lookup id="eqaAppServerSecurityProtocol" jndi-name="eqaAppServerSecurityProtocol"/>
+    </beans>
+
+</beans>

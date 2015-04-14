@@ -36,6 +36,7 @@ public class Database implements Resource {
 
     @Override
     public boolean ping() throws ResourceNotAvailableException {
+        LOG.info("In Database Ping Service");
         if (LOG.isDebugEnabled()) {
             LOG.debug("[Database.ping] ");
         }
