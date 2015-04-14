@@ -221,7 +221,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <version>${project.spring.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>aopalliance</groupId>
@@ -231,8 +231,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>4.1.1.RELEASE</version>            
+            <artifactId>spring-core</artifactId>                       
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -243,17 +242,16 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>4.1.1.RELEASE</version>            
+            <version>${project.spring.version}</version>            
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
-            <version>4.1.1.RELEASE</version>            
+            <version>${project.spring.version}</version>            
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>4.1.1.RELEASE</version>            
+            <artifactId>spring-beans</artifactId>                      
         </dependency>
         <dependency>
             <groupId>org.glassfish.hk2</groupId>
