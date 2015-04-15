@@ -41,7 +41,7 @@
 
         <cargo.servlet.port>7090</cargo.servlet.port>
         <cargo.rmi.port>7019</cargo.rmi.port>
-        <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>
+        <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>        
     </properties>
 
     <dependencyManagement>
@@ -361,7 +361,7 @@
                         </execution>
                     </executions>
                 </plugin>-->
-                <!--<plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${project.maven.failsafe.plugin.version}</version>
@@ -381,7 +381,7 @@
                     </executions>
                 </plugin>
                 
-                <plugin>
+                <!--<plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.4</version>
