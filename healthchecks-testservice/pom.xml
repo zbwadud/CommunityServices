@@ -291,9 +291,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.16</version>
                 <configuration>
                     <includes>
-                        <include>HealthCheckControllerIT.java</include>
+                        <include>HealthCheckController.java</include>
                     </includes>
                 </configuration>
             </plugin>
