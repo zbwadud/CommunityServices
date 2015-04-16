@@ -4,7 +4,6 @@
  */
 package nz.govt.nzqa.healthchecks.web.controllers;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +15,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
-import javax.ws.rs.client.ClientResponseContext;
-import javax.ws.rs.client.ClientResponseFilter;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -127,7 +122,7 @@ public class HealthCheckController {
         for (String name : names) {
             String uri = template.replace("list", name);
             namesMap.put(name, uri);
-        };
+        }
         ObjectMapper mapper = new ObjectMapper();
         String resultString = mapper.writeValueAsString(namesMap);
         return Response.status(Status.OK).entity(resultString).type(MediaType.APPLICATION_JSON_TYPE).build();
@@ -149,10 +144,8 @@ public class HealthCheckController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response metrics() throws JsonProcessingException {
         URI baseUri = uriInfo.getBaseUri();
-
         ClientConfig clientConfig = new ClientConfig();
         Client client = ClientBuilder.newClient(clientConfig);
-
         WebTarget target = client.target(baseUri);
         WebTarget metricsTarget = target.path(METRICS_URI);
         metricsTarget.queryParam("pretty", true);

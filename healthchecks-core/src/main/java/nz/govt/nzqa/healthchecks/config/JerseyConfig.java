@@ -28,20 +28,17 @@ public class JerseyConfig extends ResourceConfig {
 
     private static final transient Logger log = LoggerFactory.getLogger(JerseyConfig.class);
 
-
     /**
      * Registers JAX-RS application components.
      */
     public JerseyConfig() {
         if (log.isDebugEnabled()) {
-            if (log.isDebugEnabled()) {
-                log.debug("[JerseyConfig.JerseyConfig] CONSTRUCTOR");
-            }
+                log.debug("[JerseyConfig.JerseyConfig] CONSTRUCTOR");           
         }
         // JAX-RS package scan
         register(HealthCheckController.class);
         register(RequestContextFilter.class);
-        Object property = getProperty(CommonProperties.FEATURE_AUTO_DISCOVERY_DISABLE);
+        //Object property = getProperty(CommonProperties.FEATURE_AUTO_DISCOVERY_DISABLE);
         property(JAXBContextProperties.JSON_INCLUDE_ROOT, true);
         property(MarshallerProperties.JSON_INCLUDE_ROOT, true);
         property(Marshaller.JAXB_FORMATTED_OUTPUT, true);

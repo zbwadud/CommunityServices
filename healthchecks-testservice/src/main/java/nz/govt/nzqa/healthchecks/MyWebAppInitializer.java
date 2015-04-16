@@ -7,7 +7,7 @@ package nz.govt.nzqa.healthchecks;
 
 //import javax.servlet.ServletContext;
 //import javax.servlet.ServletRegistration;
-
+/*
 import nz.govt.nzqa.healthchecks.config.JerseyConfig;
 import nz.govt.nzqa.healthchecks.web.servlets.HealthCheckServletListener;
 import nz.govt.nzqa.healthchecks.web.servlets.MetricsServletListener;
@@ -19,7 +19,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.XmlWebApplicationContext;
-
+*/
 
 /**
  * Add class description here

@@ -5,16 +5,9 @@
 
 package nz.govt.nzqa.healthchecks.resource;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import jcifs.smb.SmbException;
-import jcifs.smb.SmbFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +20,6 @@ import org.slf4j.LoggerFactory;
  * This for decouple integration test. SUCCESSFULL
  */
 public class RemoteService implements Resource {
-
     private static final Logger LOG = LoggerFactory.getLogger(RemoteService.class);
     
     private String principal;
@@ -35,7 +27,6 @@ public class RemoteService implements Resource {
     private String contextFactory;
     private String serverUrl;
     private String protocol;
-    
     private String toString;
     // url needs to be of the form:
     // smb://[[[domain;]username[:password]@]server[:port]/[[share/[dir/]file]]][?[param=value[param2=value2[...]]]
@@ -70,11 +61,9 @@ public class RemoteService implements Resource {
     
     /** {@inheritDoc} */
     @Override
-    public boolean ping() throws ResourceNotAvailableException {
-        
+    public boolean ping() throws ResourceNotAvailableException {        
         LOG.info("Remote Service Data:-->"+"principal "+principal+" credentials"+credentials+" contextFactory "
-                +contextFactory+" serverUrl "+serverUrl+" protocol "+protocol);
-        
+                +contextFactory+" serverUrl "+serverUrl+" protocol "+protocol);        
         return true;
     }
 
@@ -128,7 +117,6 @@ public class RemoteService implements Resource {
     */
     @Override
     public String toString() {
-
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(toString).toString();
     }
 }
