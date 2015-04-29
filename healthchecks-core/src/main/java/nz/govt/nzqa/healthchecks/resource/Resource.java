@@ -5,8 +5,6 @@
 
 package nz.govt.nzqa.healthchecks.resource;
 
-import java.sql.SQLException;
-
 
 /**
  * Represents some resource that will determine it's own status, whether the resource is available or not.

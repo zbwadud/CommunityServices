@@ -77,7 +77,12 @@
             <artifactId>jersey-guava</artifactId>
             <version>${project.jersey.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>            
@@ -154,20 +159,7 @@
             <groupId>org.kubek2k</groupId>
             <artifactId>springockito</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>nz.govt.nzqa.healthchecks</groupId>
-            <artifactId>healthchecks-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0.1</version>
-            <scope>provided</scope>
-        </dependency>  
+        </dependency>        
     </dependencies>
     
     <build>        

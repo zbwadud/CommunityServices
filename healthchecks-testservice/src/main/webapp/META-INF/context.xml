@@ -1,187 +1,34 @@
-
-<Context path="/healthchecks-testservice##1.0-SNAPSHOT"
-         docBase="healthchecks-testservice##1.0-SNAPSHOT"
-         workDir="c:/tmp/healthchecks-testservice##1.0-SNAPSHOT/work"
-         displayName="nzqa learner-extranet context"
-         cachingAllowed="true"
-         crossContext="false"
-         cookies="true"
-         reloadable="true"
-         swallowOutput="true"
-         privileged="false"
-         wrapperClass="org.apache.catalina.core.StandardWrapper"
-         useNaming="true"
-         antiJARLocking="true">
-
-        <Resource factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-                  name="${lex.db.webReadOnly.name}"
-                  type="javax.sql.DataSource"
-                  auth="Container"
-                  driverClassName="nz.co.ajm.jdbcwrapper.WrapperDriver"
-                  testOnBorrow="${lex.db.webReadOnly.testonborrow}"
-                  validationQuery="${lex.db.webReadOnly.validationquery}"
-                  initialSize="${lex.db.webReadOnly.initialsize}"
-                  maxActive="${lex.db.webReadOnly.maxactive}"
-                  minIdle="${lex.db.webReadOnly.minidle}"
-                  maxIdle="${lex.db.webReadOnly.maxidle}"
-                  maxWait="${lex.db.webReadOnly.maxwait}"
-                  removeAbandoned="${lex.db.webReadOnly.removeabandoned}"
-                  removeAbandonedTimeout="${lex.db.webReadOnly.removeabandonedtimeout}"
-                  logAbandoned="${lex.db.webReadOnly.logabandoned}"
-                  url="jdbc:wrapper:class=com.sybase.jdbc3.jdbc.SybDriver;report=3600000;trace=4;tracefile=c:/logs/web/learner-extranet-jdbc-trace-wro_{yyyy-MM-dd}.log;url=${lex.db.webReadOnly.url}"
-                  username="${lex.db.webReadOnly.user}"
-                  password="${lex.db.webReadOnly.password}"/>
-
-        <Resource factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-                  name="${lex.db.webReadWrite.name}"
-                  type="javax.sql.DataSource"
-                  auth="Container"
-                  driverClassName="nz.co.ajm.jdbcwrapper.WrapperDriver"
-                  testOnBorrow="${lex.db.webReadWrite.testonborrow}"
-                  validationQuery="${lex.db.webReadWrite.validationquery}"
-                  initialSize="${lex.db.webReadWrite.initialsize}"
-                  maxActive="${lex.db.webReadWrite.maxactive}"
-                  minIdle="${lex.db.webReadWrite.minidle}"
-                  maxIdle="${lex.db.webReadWrite.maxidle}"
-                  maxWait="${lex.db.webReadWrite.maxwait}"
-                  removeAbandoned="${lex.db.webReadWrite.removeabandoned}"
-                  removeAbandonedTimeout="${lex.db.webReadWrite.removeabandonedtimeout}"
-                  logAbandoned="${lex.db.webReadWrite.logabandoned}"
-                  url="jdbc:wrapper:class=com.sybase.jdbc3.jdbc.SybDriver;report=3600000;trace=4;tracefile=c:/logs/web/learner-extranet-jdbc-trace-wrw_{yyyy-MM-dd}.log;url=${lex.db.webReadWrite.url}"
-                  username="${lex.db.webReadWrite.user}"
-                  password="${lex.db.webReadWrite.password}"/>
-
-        <Resource factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-                  name="${lex.db.webEqa.name}"
-                  type="javax.sql.DataSource"
-                  auth="Container"
-                  driverClassName="nz.co.ajm.jdbcwrapper.WrapperDriver"
-                  testOnBorrow="${lex.db.webEqa.testonborrow}"
-                  validationQuery="${lex.db.webEqa.validationquery}"
-                  initialSize="${lex.db.webEqa.initialsize}"
-                  maxActive="${lex.db.webEqa.maxactive}"
-                  minIdle="${lex.db.webEqa.minidle}"
-                  maxIdle="${lex.db.webEqa.maxidle}"
-                  maxWait="${lex.db.webEqa.maxwait}"
-                  removeAbandoned="${lex.db.webEqa.removeabandoned}"
-                  removeAbandonedTimeout="${lex.db.webEqa.removeabandonedtimeout}"
-                  logAbandoned="${lex.db.webEqa.logabandoned}"
-                  url="jdbc:wrapper:class=com.sybase.jdbc3.jdbc.SybDriver;report=3600000;trace=4;tracefile=c:/logs/web/learner-extranet-jdbc-trace-weq_{yyyy-MM-dd}.log;url=${lex.db.webEqa.url}"
-                  username="${lex.db.webEqa.user}"
-                  password="${lex.db.webEqa.password}"/>
-
-        <Resource auth="Container"
-                  name="mail/Session"
-                  scope="Shareable"
-                  type="javax.mail.Session"
-                  mail.smtp.host="${smtp.server}"/>
-
-        <!-- Properties for connecting to JBoss -->
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="eqaAppServerContextFactory"
-                     value="org.jboss.security.jndi.LoginInitialContextFactory"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="eqaAppServerUrl"
-                     value="${secure.eqa.jnp.url}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="eqaAppServerPrincipal"
-                     value="${secure.eqa.jnp.user}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="eqaAppServerCredentials"
-                     value="${secure.eqa.jnp.password}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="eqaAppServerSecurityProtocol"
-                     value="eqa"/>
-
-        <!-- Properties for connecting to CIFS/SMB eDirectory used by the CMS for assets -->
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsCMSAssetsUserId"
-                     value="${secure.cifs.cmsAssetsClient.user}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsCMSAssetsPassword"
-                     value="${secure.cifs.cmsAssetsClient.password}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsCMSAssetsDomain"
-                     value="${secure.cifs.cmsAssetsClient.domain}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsCMSAssetsBaseUrl"
-                     value="${secure.cifs.cmsAssetsClient.url}"/>
-
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsSRSUserId"
-                     value="${secure.cifs.srsClient.user}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsSRSPassword"
-                     value="${secure.cifs.srsClient.password}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsSRSDomain"
-                     value="${secure.cifs.srsClient.domain}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="cifsSRSBaseUrl"
-                     value="${secure.cifs.srsClient.url}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="simpleTemplateRootPath"
-                     value="${secure.conf.simpleTemplateRootPath}"/>
-
-        <!-- Vocational Pathways environment variables -->
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="vpHostname"
-                     value="${lex.vp.vphostname}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="vpPort"
-                     value="${lex.vp.vpport}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="vpUsername"
-                     value="${lex.vp.vpuser}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="vpPassword"
-                     value="${lex.vp.vppassword}"/>
-
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="studentServiceHostname"
-                     value="${lex.ss.hostname}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="studentServiceUrl"
-                     value="${lex.ss.url}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="studentServicePort"
-                     value="${lex.ss.port}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="studentServiceUsername"
-                     value="${lex.ss.user}"/>
-        <Environment type="java.lang.String"
-                     override="false"
-                     name="studentServicePassword"
-                     value="${lex.ss.password}"/>
-        <!-- END of Vocational Pathways environment variables -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" cachingAllowed="true" cookies="true" crossContext="false" displayName="nzqa learner-extranet context" docBase="healthchecks-testservice##1.0-SNAPSHOT" path="/hc-ts" privileged="false" reloadable="true" swallowOutput="true" useNaming="true" workDir="c:/tmp/healthchecks-testservice##1.0-SNAPSHOT/work" wrapperClass="org.apache.catalina.core.StandardWrapper">
+  <Resource auth="Container" driverClassName="nz.co.ajm.jdbcwrapper.WrapperDriver" factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" initialSize="${lex.db.webReadOnly.initialsize}" logAbandoned="${lex.db.webReadOnly.logabandoned}" maxActive="${lex.db.webReadOnly.maxactive}" maxIdle="${lex.db.webReadOnly.maxidle}" maxWait="${lex.db.webReadOnly.maxwait}" minIdle="${lex.db.webReadOnly.minidle}" name="${lex.db.webReadOnly.name}" password="${lex.db.webReadOnly.password}" removeAbandoned="${lex.db.webReadOnly.removeabandoned}" removeAbandonedTimeout="${lex.db.webReadOnly.removeabandonedtimeout}" testOnBorrow="${lex.db.webReadOnly.testonborrow}" type="javax.sql.DataSource" url="jdbc:wrapper:class=com.sybase.jdbc3.jdbc.SybDriver;report=3600000;trace=4;tracefile=c:/logs/web/learner-extranet-jdbc-trace-wro_{yyyy-MM-dd}.log;url=${lex.db.webReadOnly.url}" username="${lex.db.webReadOnly.user}" validationQuery="${lex.db.webReadOnly.validationquery}"/>
+  <Resource auth="Container" driverClassName="nz.co.ajm.jdbcwrapper.WrapperDriver" factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" initialSize="${lex.db.webReadWrite.initialsize}" logAbandoned="${lex.db.webReadWrite.logabandoned}" maxActive="${lex.db.webReadWrite.maxactive}" maxIdle="${lex.db.webReadWrite.maxidle}" maxWait="${lex.db.webReadWrite.maxwait}" minIdle="${lex.db.webReadWrite.minidle}" name="${lex.db.webReadWrite.name}" password="${lex.db.webReadWrite.password}" removeAbandoned="${lex.db.webReadWrite.removeabandoned}" removeAbandonedTimeout="${lex.db.webReadWrite.removeabandonedtimeout}" testOnBorrow="${lex.db.webReadWrite.testonborrow}" type="javax.sql.DataSource" url="jdbc:wrapper:class=com.sybase.jdbc3.jdbc.SybDriver;report=3600000;trace=4;tracefile=c:/logs/web/learner-extranet-jdbc-trace-wrw_{yyyy-MM-dd}.log;url=${lex.db.webReadWrite.url}" username="${lex.db.webReadWrite.user}" validationQuery="${lex.db.webReadWrite.validationquery}"/>
+  <Resource auth="Container" driverClassName="nz.co.ajm.jdbcwrapper.WrapperDriver" factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" initialSize="${lex.db.webEqa.initialsize}" logAbandoned="${lex.db.webEqa.logabandoned}" maxActive="${lex.db.webEqa.maxactive}" maxIdle="${lex.db.webEqa.maxidle}" maxWait="${lex.db.webEqa.maxwait}" minIdle="${lex.db.webEqa.minidle}" name="${lex.db.webEqa.name}" password="${lex.db.webEqa.password}" removeAbandoned="${lex.db.webEqa.removeabandoned}" removeAbandonedTimeout="${lex.db.webEqa.removeabandonedtimeout}" testOnBorrow="${lex.db.webEqa.testonborrow}" type="javax.sql.DataSource" url="jdbc:wrapper:class=com.sybase.jdbc3.jdbc.SybDriver;report=3600000;trace=4;tracefile=c:/logs/web/learner-extranet-jdbc-trace-weq_{yyyy-MM-dd}.log;url=${lex.db.webEqa.url}" username="${lex.db.webEqa.user}" validationQuery="${lex.db.webEqa.validationquery}"/>
+  <Resource auth="Container" mail.smtp.host="${smtp.server}" name="mail/Session" scope="Shareable" type="javax.mail.Session"/>
+  <!-- Properties for connecting to JBoss -->
+  <Environment name="eqaAppServerContextFactory" override="false" type="java.lang.String" value="org.jboss.security.jndi.LoginInitialContextFactory"/>
+  <Environment name="eqaAppServerUrl" override="false" type="java.lang.String" value="${secure.eqa.jnp.url}"/>
+  <Environment name="eqaAppServerPrincipal" override="false" type="java.lang.String" value="${secure.eqa.jnp.user}"/>
+  <Environment name="eqaAppServerCredentials" override="false" type="java.lang.String" value="${secure.eqa.jnp.password}"/>
+  <Environment name="eqaAppServerSecurityProtocol" override="false" type="java.lang.String" value="eqa"/>
+  <!-- Properties for connecting to CIFS/SMB eDirectory used by the CMS for assets -->
+  <Environment name="cifsCMSAssetsUserId" override="false" type="java.lang.String" value="${secure.cifs.cmsAssetsClient.user}"/>
+  <Environment name="cifsCMSAssetsPassword" override="false" type="java.lang.String" value="${secure.cifs.cmsAssetsClient.password}"/>
+  <Environment name="cifsCMSAssetsDomain" override="false" type="java.lang.String" value="${secure.cifs.cmsAssetsClient.domain}"/>
+  <Environment name="cifsCMSAssetsBaseUrl" override="false" type="java.lang.String" value="${secure.cifs.cmsAssetsClient.url}"/>
+  <Environment name="cifsSRSUserId" override="false" type="java.lang.String" value="${secure.cifs.srsClient.user}"/>
+  <Environment name="cifsSRSPassword" override="false" type="java.lang.String" value="${secure.cifs.srsClient.password}"/>
+  <Environment name="cifsSRSDomain" override="false" type="java.lang.String" value="${secure.cifs.srsClient.domain}"/>
+  <Environment name="cifsSRSBaseUrl" override="false" type="java.lang.String" value="${secure.cifs.srsClient.url}"/>
+  <Environment name="simpleTemplateRootPath" override="false" type="java.lang.String" value="${secure.conf.simpleTemplateRootPath}"/>
+  <!-- Vocational Pathways environment variables -->
+  <Environment name="vpHostname" override="false" type="java.lang.String" value="${lex.vp.vphostname}"/>
+  <Environment name="vpPort" override="false" type="java.lang.String" value="${lex.vp.vpport}"/>
+  <Environment name="vpUsername" override="false" type="java.lang.String" value="${lex.vp.vpuser}"/>
+  <Environment name="vpPassword" override="false" type="java.lang.String" value="${lex.vp.vppassword}"/>
+  <Environment name="studentServiceHostname" override="false" type="java.lang.String" value="${lex.ss.hostname}"/>
+  <Environment name="studentServiceUrl" override="false" type="java.lang.String" value="${lex.ss.url}"/>
+  <Environment name="studentServicePort" override="false" type="java.lang.String" value="${lex.ss.port}"/>
+  <Environment name="studentServiceUsername" override="false" type="java.lang.String" value="${lex.ss.user}"/>
+  <Environment name="studentServicePassword" override="false" type="java.lang.String" value="${lex.ss.password}"/>
+  <!-- END of Vocational Pathways environment variables -->
 </Context>

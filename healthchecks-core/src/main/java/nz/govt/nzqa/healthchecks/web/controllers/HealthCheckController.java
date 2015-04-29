@@ -118,25 +118,31 @@ public class HealthCheckController {
     public Response list() throws JsonProcessingException {
         SortedSet<String> names = healthChecks.getNames();
         Map<String, String> namesMap = new HashMap<>();
+        HealthCheck.Result result;
         String template = uriInfo.getAbsolutePathBuilder().toTemplate();
         for (String name : names) {
+            result = healthChecks.runHealthCheck(name);
             String uri = template.replace("list", name);
-            namesMap.put(name, uri);
+            namesMap.put(name, String.valueOf(result.isHealthy()));//uri
         }
         ObjectMapper mapper = new ObjectMapper();
         String resultString = mapper.writeValueAsString(namesMap);
         return Response.status(Status.OK).entity(resultString).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
 
-
+    /**
+     *
+     * @param checkName
+     * @return
+     */
     @GET
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response doCheck(@PathParam("name") String checkName) {
         HealthCheck.Result result = healthChecks.runHealthCheck(checkName);
         Status status = (result.isHealthy() ? Response.Status.OK : Response.Status.INTERNAL_SERVER_ERROR);
-
-        return Response.status(status).entity(result).build();
+        
+        return Response.status(status.OK).entity(result).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
 
     @GET

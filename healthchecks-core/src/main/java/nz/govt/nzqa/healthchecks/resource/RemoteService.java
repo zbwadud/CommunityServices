@@ -62,7 +62,7 @@ public class RemoteService implements Resource {
     /** {@inheritDoc} */
     @Override
     public boolean ping() throws ResourceNotAvailableException {        
-        LOG.info("Remote Service Data:-->"+"principal "+principal+" credentials"+credentials+" contextFactory "
+        LOG.info("Remote Service Data:  -->"+"principal "+principal+" credentials"+credentials+" contextFactory "
                 +contextFactory+" serverUrl "+serverUrl+" protocol "+protocol);        
         return true;
     }
