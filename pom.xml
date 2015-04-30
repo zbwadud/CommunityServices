@@ -316,7 +316,7 @@
                         <target>${project.java.version}</target>
                     </configuration>
                 </plugin>
-                <!--
+                
                 <plugin>
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>cargo-maven2-plugin</artifactId>
@@ -357,7 +357,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                -->
+                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
