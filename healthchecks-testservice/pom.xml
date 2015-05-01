@@ -1,215 +1,421 @@
-<?xml version="1.0" encoding="UTF8" ?> 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchemainstance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/mavenv4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion> 
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>healthchecks-parent</artifactId> 
-        <groupId>nz.govt.nzqa.healthchecks</groupId> 
-        <version>1.0-SNAPSHOT</version> 
+        <artifactId>healthchecks-parent</artifactId>
+        <groupId>nz.govt.nzqa.healthchecks</groupId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>healthchecks-testservice</artifactId> 
-    <name>HealthChecks-TestService</name> 
-    <packaging>war</packaging> 
+
+    <artifactId>healthchecks-testservice</artifactId>
+    <name>Health Checks - Test Service</name>
+    <packaging>war</packaging>
+
     <properties>
-        <maven.war.plugin.version>2.3</maven.war.plugin.version> 
+        <maven.war.plugin.version>2.3</maven.war.plugin.version>
     </properties>
+
     <dependencies>
-        <!--  NZQA HealthChecks Core Library --> 
+
+        <!-- NZQA HealthChecks Core Library -->
+
+        <!-- Servlet/REST/JAX-RS -->
+
+        <!-- Spring 4 Libs -->
         <dependency>
-            <groupId>nz.govt.nzqa.healthchecks</groupId> 
-            <artifactId>healthchecks-core</artifactId> 
-            <version>${project.version}</version> 
-            <classifier>jar-with-dependencies</classifier> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>aopalliance</groupId>
+                    <artifactId>aopalliance</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>nz.govt.nzqa.healthchecks</groupId> 
-            <artifactId>healthchecks-core</artifactId> 
-            <version>${project.version}</version> 
-            <type>test-jar</type> 
-        </dependency>
-        <!--  Servlet/REST/JAXRS --> 
-        <dependency>
-            <groupId>javax.servlet</groupId> 
-            <artifactId>javax.servlet-api</artifactId> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId> 
-            <artifactId>jersey-container-servlet</artifactId> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>            
+        </dependency>
+
+        <!-- Libraries needed by Jetty embedded container -->
+        <dependency>
+            <groupId>net.sourceforge.jtds</groupId>
+            <artifactId>jtds</artifactId>
+            <version>1.3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.core</groupId> 
-            <artifactId>jersey-client</artifactId> 
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.0-pre5</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.media</groupId> 
-            <artifactId>jersey-media-moxy</artifactId> 
-        </dependency>
- <!--  Spring 4 Libs --> 
-        <dependency>
-            <groupId>org.springframework</groupId> 
-            <artifactId>spring-context</artifactId> 
+            <groupId>jcifs</groupId>
+            <artifactId>jcifs</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId> 
-            <artifactId>spring-jdbc</artifactId> 
+            <groupId>${project.groupId}</groupId>
+            <artifactId>healthchecks-core</artifactId>
+            <version>${project.version}</version>
+            <classifier>jar-with-dependencies</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.codahale.metrics</groupId>
+                    <artifactId>metrics-healthchecks</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.codahale.metrics</groupId>
+                    <artifactId>metrics-annotation</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>asm-all-repackaged</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>bean-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>class-model</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>config-types</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>hk2</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>hk2-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>hk2-locator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>javax.inject</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>javax.ws.rs-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-jaxb</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.ext</groupId>
+                    <artifactId>jersey-spring3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-healthchecks</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-json</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-jvm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-servlets</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.ryantenney.metrics</groupId>
+                    <artifactId>metrics-spring</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Integration Testing 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId> 
-            <artifactId>spring-web</artifactId> 
-        </dependency>
- <!--  Libraries needed by Jetty embedded container --> 
-        <dependency>
-            <groupId>net.sourceforge.jtds</groupId> 
-            <artifactId>jtds</artifactId> 
-            <version>1.3.1</version> 
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-integration</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>c3p0</groupId> 
-            <artifactId>c3p0</artifactId> 
-            <version>0.9.0-pre5</version> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jcifs</groupId> 
-            <artifactId>jcifs</artifactId> 
+            <groupId>${project.groupId}</groupId>
+            <artifactId>healthchecks-core</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <classifier>jar-with-dependencies</classifier>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>aopalliance</groupId>
+                    <artifactId>aopalliance</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId> 
-            <artifactId>log4j</artifactId> 
-            <version>1.2.17</version> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>                       
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId> 
-            <artifactId>slf4j-log4j12</artifactId> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${project.spring.version}</version>            
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId> 
-            <artifactId>commons-logging</artifactId> 
-        </dependency>
- <!--  Integration Testing --> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${project.spring.version}</version>            
+        </dependency>        
         <dependency>
-            <groupId>junit</groupId> 
-            <artifactId>junit</artifactId> 
-            <scope>compile</scope> 
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId> 
-            <artifactId>hamcrest-integration</artifactId> 
-            <scope>compile</scope> 
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>                      
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId> 
-            <artifactId>spring-test</artifactId> 
-            <scope>compile</scope> 
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>spring-bridge</artifactId>
+            <version>2.4.0-b10</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>aopalliance-repackaged</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>hk2-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.inject</groupId>
+                    <artifactId>javax.inject</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>            
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${project.slf4j.version}</version>
+        </dependency>        
     </dependencies>
+    
     <build>
-        <finalName>${project.artifactId}##${project.version}</finalName> 
+        <finalName>hc-ts</finalName><!--${project.artifactId}##${project.version}-->
         <plugins>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId> 
-                <version>${maven.war.plugin.version}</version> 
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.plugin.version}</version>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml> 
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId> 
-                <artifactId>maven-compiler-plugin</artifactId> 
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId> 
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.16</version>
                 <configuration>
                     <includes>
-                        <include>HealthCheckControllerIT.java</include> 
+                        <include>HealthCheckController.java</include>
                     </includes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId> 
-                <artifactId>cargo-maven2-plugin</artifactId> 
-                <configuration>
- <!--  Container configuration --> 
-                    <container>
-                        <containerId>jetty9x</containerId> 
-                        <timeout>180000</timeout> 
-                        <artifactInstaller>
-                            <groupId>org.eclipse.jetty</groupId> 
-                            <artifactId>jetty-distribution</artifactId> 
-                            <version>${project.jetty9x.version}</version> 
-                        </artifactInstaller>
- <!--  These values should be the DB connection properties used during dev testing locally. --> 
-                        <systemProperties>
-                            <spring.profiles.active>dev</spring.profiles.active> 
-                            <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri> 
-                        </systemProperties>
-                        <dependencies>
-                            <dependency>
-                                <groupId>net.sourceforge.jtds</groupId> 
-                                <artifactId>jtds</artifactId> 
-                            </dependency>
-                            <dependency>
-                                <groupId>c3p0</groupId> 
-                                <artifactId>c3p0</artifactId> 
-                            </dependency>
-                            <dependency>
-                                <groupId>jcifs</groupId> 
-                                <artifactId>jcifs</artifactId> 
-                            </dependency>
-                            <dependency>
-                                <groupId>log4j</groupId> 
-                                <artifactId>log4j</artifactId> 
-                            </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId> 
-                                <artifactId>slf4j-log4j12</artifactId> 
-                            </dependency>
-                            <dependency>
-                                <groupId>commons-logging</groupId> 
-                                <artifactId>commons-logging</artifactId> 
-                            </dependency>
-                        </dependencies>
-                    </container>
- <!--  Configuration to use with the container or the deployer  -->
-                    <deployables>
+            <!--    <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <configuration> -->
+            <!-- Container configuration -->
+            <!--    <container>
+            <containerId>jetty9x</containerId>
+            <timeout>180000</timeout>
+            <artifactInstaller>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-distribution</artifactId>
+                <version>${project.jetty9x.version}</version>
+            </artifactInstaller> -->
+            <!-- These values should be the DB connection properties used during dev testing locally. -->
+            <!--        <systemProperties>
+                    <spring.profiles.active>dev</spring.profiles.active>
+                    <healthcheck.testservice.rest.uri>http://localhost:7090/testservice/rest</healthcheck.testservice.rest.uri>
+                </systemProperties>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.jtds</groupId>
+                        <artifactId>jtds</artifactId>
+                    </dependency>
+                    <dependency>
+                        <groupId>c3p0</groupId>
+                        <artifactId>c3p0</artifactId>
+                    </dependency>
+                    <dependency>
+                        <groupId>jcifs</groupId>
+                        <artifactId>jcifs</artifactId>
+                    </dependency>
+                    <dependency>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </dependency>
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </dependency>
+                </dependencies>
+            </container> -->
+            <!-- Configuration to use with the container or the deployer -->
+            <!--    <deployables>
                         <deployable>
-                            <groupId>${project.groupId}</groupId> 
-                            <artifactId>healthchecks-testservice</artifactId> 
-                            <type>war</type> 
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>healthchecks-testservice</artifactId>
+                            <type>war</type>
                             <properties>
-                                <context>testservice</context> 
+                                <context>testservice</context>
                             </properties>
                         </deployable>
                     </deployables>
                     <configuration>
                         <properties>
-                            <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port> 
-                            <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port> 
-                            <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port> 
-                            <cargo.datasource.datasource.web_eqa>cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver| cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_eqa5| cargo.datasource.jndi=jdbc/web_eqa_db| cargo.datasource.username=eqa_user_dev| cargo.datasource.password=password</cargo.datasource.datasource.web_eqa> 
-                            <cargo.datasource.datasource.eqa_read_write>cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver| cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_read_write_prod5| cargo.datasource.jndi=jdbc/web_read_write_db| cargo.datasource.username=eqa_user_dev| cargo.datasource.password=password</cargo.datasource.datasource.eqa_read_write> 
+                            <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+                            <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
+                            <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+                            <cargo.datasource.datasource.web_eqa>
+                                cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
+                                cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_eqa5|
+                                cargo.datasource.jndi=jdbc/web_eqa_db|
+                                cargo.datasource.username=eqa_user_dev|
+                                cargo.datasource.password=password
+                            </cargo.datasource.datasource.web_eqa>
+                            <cargo.datasource.datasource.eqa_read_write>
+                                cargo.datasource.driver=net.sourceforge.jtds.jdbc.Driver|
+                                cargo.datasource.url=jdbc:jtds:sybase://devase01:6000/web_read_write_prod5|
+                                cargo.datasource.jndi=jdbc/web_read_write_db|
+                                cargo.datasource.username=eqa_user_dev|
+                                cargo.datasource.password=password
+                            </cargo.datasource.datasource.eqa_read_write>
                         </properties>
                     </configuration>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
+    
     <profiles>
- <!--
-        This profile configures the Cargo Jetty Container
+        <!-- This profile configures the Cargo Jetty Container
         Runtime dependencies are specified, system properties and what should be deployed.
-        Refer above for other default startup properties that are supplied and used during testing. --> 
-        <profile>
-            <id>debugjetty9x</id> 
+        Refer above for other default startup properties that are supplied and used during testing. -->
+        <!--    <profile>
+            <id>debug-jetty9x</id>
             <build>
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>org.codehaus.cargo</groupId> 
-                            <artifactId>cargo-maven2-plugin</artifactId> 
+                            <groupId>org.codehaus.cargo</groupId>
+                            <artifactId>cargo-maven2-plugin</artifactId>
                             <configuration>
                                 <configuration>
                                     <properties>
-                                        <cargo.jvmargs>XX:+CMSClassUnloadingEnabled XX:MaxPermSize=512M Dfile.encoding=UTF8 Xdebug Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 Xnoagent Djava.compiler=NONE</cargo.jvmargs> 
+                                        <cargo.jvmargs>
+                                            -XX:+CMSClassUnloadingEnabled
+                                            -XX:MaxPermSize=512M
+                                            -Dfile.encoding=UTF-8
+                                            -Xdebug
+                                            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+                                            -Xnoagent
+                                            -Djava.compiler=NONE
+                                        </cargo.jvmargs>
                                     </properties>
                                 </configuration>
                             </configuration>
@@ -219,20 +425,24 @@
             </build>
         </profile>
         <profile>
-            <id>jetty9x</id> 
+            <id>jetty9x</id>
             <activation>
-                <activeByDefault>true</activeByDefault> 
+                <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>org.codehaus.cargo</groupId> 
-                            <artifactId>cargo-maven2-plugin</artifactId> 
+                            <groupId>org.codehaus.cargo</groupId>
+                            <artifactId>cargo-maven2-plugin</artifactId>
                             <configuration>
                                 <configuration>
                                     <properties>
-                                        <cargo.jvmargs>XX:+CMSClassUnloadingEnabled XX:MaxPermSize=512M Dfile.encoding=UTF8</cargo.jvmargs> 
+                                        <cargo.jvmargs>
+                                            -XX:+CMSClassUnloadingEnabled
+                                            -XX:MaxPermSize=512M
+                                            -Dfile.encoding=UTF-8
+                                        </cargo.jvmargs>
                                     </properties>
                                 </configuration>
                             </configuration>
@@ -240,6 +450,6 @@
                     </plugins>
                 </pluginManagement>
             </build>
-        </profile>
+        </profile> -->
     </profiles>
 </project>
