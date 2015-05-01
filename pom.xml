@@ -37,11 +37,11 @@
         <project.cargo.version>1.4.12</project.cargo.version>
         <project.jcifs.version>1.3.14</project.jcifs.version>
         <project.jersey.version>2.17</project.jersey.version>
-        <project.jetty9x.version>9.2.7.v20150116</project.jetty9x.version>
-
+        <project.jetty9x.version>9.2.7.v20150116</project.jetty9x.version>        
         <cargo.servlet.port>7090</cargo.servlet.port>
         <cargo.rmi.port>7019</cargo.rmi.port>
-        <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>        
+        <cargo.tomcat.ajp.port>7020</cargo.tomcat.ajp.port>
+        <sonar.language>java</sonar.language>    
     </properties>
     <dependencyManagement>
         <dependencies>
