@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
+	
+	<import resource="classpath:/applicationContext.xml" />
+        
+	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring" autoStartup="false">            
+                <dataFormats>
+                    <json id="json" library="Jackson"/>
+                </dataFormats>
+                
+                <route id="route1" autoStartup="true">                    
+                    <from uri="bean:announceService?method=EmployeeMarshal"/>
+                    <marshal ref="json"/>
+                    <process ref="processLogger"/>
+                    <log message="camel message ${body} with Correlation key ${header.correlationId}"/>
+                    <to uri="jbossamq:queue:NODEJS" pattern="InOnly"/>
+                </route>
+	</camelContext>
+</beans>
+<!-- Producer Context -->
