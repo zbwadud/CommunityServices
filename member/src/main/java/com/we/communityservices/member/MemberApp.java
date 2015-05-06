@@ -25,19 +25,21 @@ public class MemberApp implements CommandLineRunner{
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(MemberApp.class, args);
 
+        /*
         System.out.println("Let's inspect the beans provided by Spring Boot:");
-
+        
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);
         for (String beanName : beanNames) {
-            System.out.println(beanName);
+        System.out.println(beanName);
         }
+        */
     }
 
     @Override
     public void run(String... strings) throws Exception {
     
-        repository.deleteAll();
+                //repository.deleteAll();
 
 		// save a couple of customers
 		repository.save(new TestModel("Alice", "Smith"));
@@ -49,7 +51,7 @@ public class MemberApp implements CommandLineRunner{
                 repository.findAll().stream().forEach((customer) -> {
                     System.out.println(customer);
         });
-		System.out.println();
+		//System.out.println();
 
 		// fetch an individual customer
 		System.out.println("Customer found with findByFirstName('Alice'):");
