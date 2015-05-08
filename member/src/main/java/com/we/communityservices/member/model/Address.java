@@ -5,55 +5,56 @@
  */
 package com.we.communityservices.member.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-@Entity
+
+/*@Entity
 @Table(name = "address")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a"),
-    @NamedQuery(name = "Address.findByAddressId", query = "SELECT a FROM Address a WHERE a.addressId = :addressId"),
-    @NamedQuery(name = "Address.findByAddressline1", query = "SELECT a FROM Address a WHERE a.addressline1 = :addressline1"),
-    @NamedQuery(name = "Address.findByAddressline2", query = "SELECT a FROM Address a WHERE a.addressline2 = :addressline2")})
-public class Address implements Serializable {
+@NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a"),
+@NamedQuery(name = "Address.findByAddressId", query = "SELECT a FROM Address a WHERE a.addressId = :addressId"),
+@NamedQuery(name = "Address.findByAddressline1", query = "SELECT a FROM Address a WHERE a.addressline1 = :addressline1"),
+@NamedQuery(name = "Address.findByAddressline2", query = "SELECT a FROM Address a WHERE a.addressline2 = :addressline2")})*/
+
+@Document
+public class Address {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "address_id")
+    @Column(name = "address_id")    
     private Integer addressId;
+    
     @Column(name = "addressline1")
     private String addressline1;
+    
     @Column(name = "addressline2")
     private String addressline2;
-    @JoinTable(name = "address_has_type", joinColumns = {
-        @JoinColumn(name = "address_id", referencedColumnName = "address_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "type_id", referencedColumnName = "type_id")})
-    @ManyToMany
+    
+    /*@JoinTable(name = "address_has_type", joinColumns = {
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")}, inverseJoinColumns = {
+    @JoinColumn(name = "type_id", referencedColumnName = "type_id")})
+    @ManyToMany*/
+    @DBRef
     private Collection<Type> typeCollection;
-    @JoinColumn(name = "member_id", referencedColumnName = "member_id")
-    @ManyToOne(optional = false)
-    private Members memberId;
+    
+    /*@JoinColumn(name = "member_id", referencedColumnName = "member_id")
+    @ManyToOne(optional = false)*/
+    @DBRef
+    private Members member;
 
     public Address() {
     }
@@ -95,12 +96,12 @@ public class Address implements Serializable {
         this.typeCollection = typeCollection;
     }
 
-    public Members getMemberId() {
-        return memberId;
+    public Members getMember() {
+        return member;
     }
 
-    public void setMemberId(Members memberId) {
-        this.memberId = memberId;
+    public void setMemberId(Members member) {
+        this.member = member;
     }
 
     @Override

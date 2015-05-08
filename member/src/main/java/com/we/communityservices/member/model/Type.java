@@ -5,45 +5,47 @@
  */
 package com.we.communityservices.member.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-@Entity
+/*@Entity
 @Table(name = "type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Type.findAll", query = "SELECT t FROM Type t"),
-    @NamedQuery(name = "Type.findByTypeId", query = "SELECT t FROM Type t WHERE t.typeId = :typeId"),
-    @NamedQuery(name = "Type.findByName", query = "SELECT t FROM Type t WHERE t.name = :name")})
-public class Type implements Serializable {
+@NamedQuery(name = "Type.findAll", query = "SELECT t FROM Type t"),
+@NamedQuery(name = "Type.findByTypeId", query = "SELECT t FROM Type t WHERE t.typeId = :typeId"),
+@NamedQuery(name = "Type.findByName", query = "SELECT t FROM Type t WHERE t.name = :name")})*/
+
+@Document
+public class Type {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "type_id")
     private Integer typeId;
+    
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @ManyToMany(mappedBy = "typeCollection")
+    
+    //@ManyToMany(mappedBy = "typeCollection")
+    @DBRef
     private Collection<Notification> notificationCollection;
-    @ManyToMany(mappedBy = "typeCollection")
+    
+    //@ManyToMany(mappedBy = "typeCollection")
+    @DBRef
     private Collection<Address> addressCollection;
 
     public Type() {

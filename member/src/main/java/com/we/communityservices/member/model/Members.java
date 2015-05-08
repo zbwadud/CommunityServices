@@ -5,73 +5,79 @@
  */
 package com.we.communityservices.member.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-@Entity
+
+/*@Entity
 @Table(name = "members")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Members.findAll", query = "SELECT m FROM Members m"),
-    @NamedQuery(name = "Members.findByMemberId", query = "SELECT m FROM Members m WHERE m.memberId = :memberId"),
-    @NamedQuery(name = "Members.findByFirstname", query = "SELECT m FROM Members m WHERE m.firstname = :firstname"),
-    @NamedQuery(name = "Members.findByLastname", query = "SELECT m FROM Members m WHERE m.lastname = :lastname"),
-    @NamedQuery(name = "Members.findByEmail", query = "SELECT m FROM Members m WHERE m.email = :email"),
-    @NamedQuery(name = "Members.findByCellnumber", query = "SELECT m FROM Members m WHERE m.cellnumber = :cellnumber"),
-    @NamedQuery(name = "Members.findByRegister", query = "SELECT m FROM Members m WHERE m.register = :register")})
-public class Members implements Serializable {
+@NamedQuery(name = "Members.findAll", query = "SELECT m FROM Members m"),
+@NamedQuery(name = "Members.findByMemberId", query = "SELECT m FROM Members m WHERE m.memberId = :memberId"),
+@NamedQuery(name = "Members.findByFirstname", query = "SELECT m FROM Members m WHERE m.firstname = :firstname"),
+@NamedQuery(name = "Members.findByLastname", query = "SELECT m FROM Members m WHERE m.lastname = :lastname"),
+@NamedQuery(name = "Members.findByEmail", query = "SELECT m FROM Members m WHERE m.email = :email"),
+@NamedQuery(name = "Members.findByCellnumber", query = "SELECT m FROM Members m WHERE m.cellnumber = :cellnumber"),
+@NamedQuery(name = "Members.findByRegister", query = "SELECT m FROM Members m WHERE m.register = :register")})*/
+
+@Document
+public class Members {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     @Basic(optional = false)
     @Column(name = "member_id")
     private Integer memberId;
+    
     @Basic(optional = false)
     @Column(name = "firstname")
-    private String firstname;
+    private String firstName;
+    
     @Basic(optional = false)
     @Column(name = "lastname")
     private String lastname;
+    
     @Basic(optional = false)
     @Column(name = "email")
     private String email;
+    
     @Column(name = "cellnumber")
     private String cellnumber;
+    
     @Basic(optional = false)
     @Column(name = "register")
+    
     @Temporal(TemporalType.DATE)
     private Date register;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "memberId")
+    
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "memberId")
+    @DBRef
     private Collection<Address> addressCollection;
-    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    @ManyToOne(optional = false)
+    
+    //@JoinColumn(name = "status_id", referencedColumnName = "status_id")
+    //@ManyToOne(optional = false)
+    @DBRef
     private Status statusId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "members")
-    private Collection<Login> loginCollection;
 
-    public Members() {
+    public Members(String firstName) {
+        this.firstName = firstName;
     }
 
     public Members(Integer memberId) {
@@ -80,7 +86,7 @@ public class Members implements Serializable {
 
     public Members(Integer memberId, String firstname, String lastname, String email, Date register) {
         this.memberId = memberId;
-        this.firstname = firstname;
+        this.firstName = firstname;
         this.lastname = lastname;
         this.email = email;
         this.register = register;
@@ -94,12 +100,12 @@ public class Members implements Serializable {
         this.memberId = memberId;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastname() {
@@ -149,15 +155,6 @@ public class Members implements Serializable {
 
     public void setStatusId(Status statusId) {
         this.statusId = statusId;
-    }
-
-    @XmlTransient
-    public Collection<Login> getLoginCollection() {
-        return loginCollection;
-    }
-
-    public void setLoginCollection(Collection<Login> loginCollection) {
-        this.loginCollection = loginCollection;
     }
 
     @Override

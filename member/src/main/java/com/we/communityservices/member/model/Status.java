@@ -20,31 +20,41 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-@Entity
+/*@Entity
 @Table(name = "status")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s"),
-    @NamedQuery(name = "Status.findByStatusId", query = "SELECT s FROM Status s WHERE s.statusId = :statusId"),
-    @NamedQuery(name = "Status.findByName", query = "SELECT s FROM Status s WHERE s.name = :name")})
-public class Status implements Serializable {
+@NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s"),
+@NamedQuery(name = "Status.findByStatusId", query = "SELECT s FROM Status s WHERE s.statusId = :statusId"),
+@NamedQuery(name = "Status.findByName", query = "SELECT s FROM Status s WHERE s.name = :name")})*/
+
+public class Status {
+    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "status_id")
     private Integer statusId;
+    
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
+    
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
+    @DBRef
     private Collection<Notification> notificationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
+    
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
+    @DBRef
     private Collection<Members> membersCollection;
+    
 
     public Status() {
     }

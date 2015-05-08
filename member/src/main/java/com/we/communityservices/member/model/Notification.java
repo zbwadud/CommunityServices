@@ -5,52 +5,50 @@
  */
 package com.we.communityservices.member.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-@Entity
+/*@Entity
 @Table(name = "notification")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
-    @NamedQuery(name = "Notification.findByNotificationId", query = "SELECT n FROM Notification n WHERE n.notificationId = :notificationId"),
-    @NamedQuery(name = "Notification.findByMessage", query = "SELECT n FROM Notification n WHERE n.message = :message")})
-public class Notification implements Serializable {
+@NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
+@NamedQuery(name = "Notification.findByNotificationId", query = "SELECT n FROM Notification n WHERE n.notificationId = :notificationId"),
+@NamedQuery(name = "Notification.findByMessage", query = "SELECT n FROM Notification n WHERE n.message = :message")})*/
+
+public class Notification {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "notification_id")
     private Integer notificationId;
+    
     @Basic(optional = false)
     @Column(name = "message")
     private String message;
-    @JoinTable(name = "notification_has_type", joinColumns = {
-        @JoinColumn(name = "notification_id", referencedColumnName = "notification_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "type_id", referencedColumnName = "type_id")})
-    @ManyToMany
+    
+    /*@JoinTable(name = "notification_has_type", joinColumns = {
+    @JoinColumn(name = "notification_id", referencedColumnName = "notification_id")}, inverseJoinColumns = {
+    @JoinColumn(name = "type_id", referencedColumnName = "type_id")})
+    @ManyToMany*/
+    @DBRef
     private Collection<Type> typeCollection;
-    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    @ManyToOne(optional = false)
+    
+    /*@JoinColumn(name = "status_id", referencedColumnName = "status_id")
+    @ManyToOne(optional = false)*/
+    @DBRef
     private Status statusId;
 
     public Notification() {

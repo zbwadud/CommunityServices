@@ -5,42 +5,42 @@
  */
 package com.we.communityservices.member.model;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-@Entity
+/*@Entity
 @Table(name = "login")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Login.findAll", query = "SELECT l FROM Login l"),
-    @NamedQuery(name = "Login.findByLoginId", query = "SELECT l FROM Login l WHERE l.loginPK.loginId = :loginId"),
-    @NamedQuery(name = "Login.findByUsername", query = "SELECT l FROM Login l WHERE l.username = :username"),
-    @NamedQuery(name = "Login.findByMemberId", query = "SELECT l FROM Login l WHERE l.loginPK.memberId = :memberId"),
-    @NamedQuery(name = "Login.findByPassword", query = "SELECT l FROM Login l WHERE l.password = :password")})
-public class Login implements Serializable {
+@NamedQuery(name = "Login.findAll", query = "SELECT l FROM Login l"),
+@NamedQuery(name = "Login.findByLoginId", query = "SELECT l FROM Login l WHERE l.loginPK.loginId = :loginId"),
+@NamedQuery(name = "Login.findByUsername", query = "SELECT l FROM Login l WHERE l.username = :username"),
+@NamedQuery(name = "Login.findByMemberId", query = "SELECT l FROM Login l WHERE l.loginPK.memberId = :memberId"),
+@NamedQuery(name = "Login.findByPassword", query = "SELECT l FROM Login l WHERE l.password = :password")})*/
+
+public class Login {
     private static final long serialVersionUID = 1L;
+    
     @EmbeddedId
     protected LoginPK loginPK;
+    
     @Column(name = "username")
     private String username;
+    
     @Basic(optional = false)
     @Column(name = "password")
+    
     private String password;
-    @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    
+    /*@JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)*/
+    @DBRef
     private Members members;
 
     public Login() {
