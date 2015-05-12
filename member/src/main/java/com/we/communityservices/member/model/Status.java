@@ -5,22 +5,12 @@
  */
 package com.we.communityservices.member.model;
 
-import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  *
@@ -33,18 +23,15 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s"),
 @NamedQuery(name = "Status.findByStatusId", query = "SELECT s FROM Status s WHERE s.statusId = :statusId"),
 @NamedQuery(name = "Status.findByName", query = "SELECT s FROM Status s WHERE s.name = :name")})*/
-
+@Document(collection="statuses")
 public class Status {
     
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "status_id")
-    private Integer statusId;
+    private String statusId;
     
-    @Column(name = "name")
+    @Field(value = "name")
     private String name;
     
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
@@ -59,15 +46,15 @@ public class Status {
     public Status() {
     }
 
-    public Status(Integer statusId) {
-        this.statusId = statusId;
+    public Status(String name) {
+        this.name = name;
     }
 
-    public Integer getStatusId() {
+    public String getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(Integer statusId) {
+    public void setStatusId(String statusId) {
         this.statusId = statusId;
     }
 

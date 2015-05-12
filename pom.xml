@@ -10,6 +10,7 @@
     <modules>
         <module>member</module>
         <module>notification</module>
+        <module>PersistanceLayer</module>
     </modules>
     
     <properties>
@@ -82,13 +83,19 @@
             <artifactId>spring-data-jpa</artifactId>
         </dependency>-->
     </dependencies>
-    
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

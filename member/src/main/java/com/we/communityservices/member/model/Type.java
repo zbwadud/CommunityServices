@@ -10,10 +10,11 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  *
@@ -27,17 +28,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NamedQuery(name = "Type.findByTypeId", query = "SELECT t FROM Type t WHERE t.typeId = :typeId"),
 @NamedQuery(name = "Type.findByName", query = "SELECT t FROM Type t WHERE t.name = :name")})*/
 
-@Document
+//@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Basic(optional = false)
+    //@Column(name = "type_id")
+
+@Document(collection = "types")
 public class Type {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "type_id")
-    private Integer typeId;
+    //private static final long serialVersionUID = 1L;
+    @Id    
+    private String typeId;
     
-    @Basic(optional = false)
-    @Column(name = "name")
+    //@Basic(optional = false)
+    @Field(value = "name")
     private String name;
     
     //@ManyToMany(mappedBy = "typeCollection")
@@ -51,20 +53,20 @@ public class Type {
     public Type() {
     }
 
-    public Type(Integer typeId) {
-        this.typeId = typeId;
+    public Type(String name) {
+        this.name = name;
     }
 
-    public Type(Integer typeId, String name) {
+    public Type(String typeId, String name) {
         this.typeId = typeId;
         this.name = name;
     }
 
-    public Integer getTypeId() {
+    public String getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(Integer typeId) {
+    public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
 

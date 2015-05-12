@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.we.communityservices.member.repository;
+package com.we.communityservices.persistance.repository;
 
-import com.we.communityservices.member.model.Type;
-import java.util.List;
+import com.we.communityservices.persistance.model.Login;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-public interface TypeRepository extends MongoRepository<Type, String>{
+public interface LoginRepository extends MongoRepository<Login, String>{
     
-    @Override
-    public List<Type> findAll();    
     
 }

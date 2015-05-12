@@ -33,4 +33,8 @@ public class StatusService {
         return statuses.findByName(name);
     }
     
+    public void deleteAll(){
+        statuses.deleteAll();
+    }
+    
 }

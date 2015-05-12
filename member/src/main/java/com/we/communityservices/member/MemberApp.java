@@ -3,28 +3,24 @@
  */
 package com.we.communityservices.member;
 
-import com.we.communityservices.member.model.TestModel;
-import com.we.communityservices.member.model.Type;
-import com.we.communityservices.member.repository.TestRepository;
-import com.we.communityservices.member.service.AddressService;
-import com.we.communityservices.member.service.MemberService;
-import com.we.communityservices.member.service.StatusService;
-import com.we.communityservices.member.service.TypeService;
-import java.util.Arrays;
+import com.we.communityservices.persistance.model.ParentType;
+import com.we.communityservices.persistance.service.ParentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  *
  * @author Zaid Wadud
  */
 @SpringBootApplication
+@ComponentScan("com.we.communityservices.persistance.service")
 public class MemberApp implements CommandLineRunner{
     
-    @Autowired
+    /*@Autowired
     private TestRepository repository;
     @Autowired
     private MemberService memberService;
@@ -33,7 +29,10 @@ public class MemberApp implements CommandLineRunner{
     @Autowired
     private TypeService typeService;
     @Autowired
-    private StatusService statusService;
+    private StatusService statusService;*/
+    
+    @Autowired
+    private ParentTypeService parentTypeService;
     
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(MemberApp.class, args);
@@ -51,16 +50,34 @@ public class MemberApp implements CommandLineRunner{
 
     @Override
     public void run(String... strings) throws Exception {
-    
-                
-                typeService.saveType(new Type(101,"Office Address"));
-                typeService.saveType(new Type(102,"Home Address"));
+        
+                /* Type model Start 
+                typeService.deleteAll();                
+                typeService.saveType(new Type("Office Address-15"));
+                typeService.saveType(new Type("Home Address-15"));
                 
                 System.out.println("Types found with findAll():");
                 for (Type typeList : typeService.findAll()) {
-			System.out.println(typeList);
+		System.out.println(typeList);
 		}
+                Type model End */
                 
+                /* ParentType model Start */
+        
+                //parentTypeService.deleteAll();
+                parentTypeService.saveParentType(new ParentType("MemberType",true));
+                parentTypeService.saveParentType(new ParentType("AddressType",true));
+                parentTypeService.saveParentType(new ParentType("StatusType",true));
+                parentTypeService.saveParentType(new ParentType("NotificationType",true));
+                
+                System.out.println("ParentType found with findAll():");
+                for (ParentType typeList : parentTypeService.findAll()) {
+		System.out.println(typeList);
+		}
+                /* Status model End */
+                
+                
+                               
                 /*//repository.deleteAll();
                 
                 // save a couple of customers
