@@ -3,21 +3,20 @@
  */
 package com.we.communityservices.member;
 
-import com.we.communityservices.persistance.model.ParentType;
-import com.we.communityservices.persistance.service.ParentTypeService;
+import com.we.communityservices.persistence.model.ParentType;
+import com.we.communityservices.persistence.service.ParentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  *
  * @author Zaid Wadud
  */
 @SpringBootApplication
-@ComponentScan("com.we.communityservices.persistance.service")
+//@ComponentScan("com.we.communityservices.persistence.service")
 public class MemberApp implements CommandLineRunner{
     
     /*@Autowired

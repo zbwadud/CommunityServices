@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.we.communityservices.persistance.repository;
+package com.we.communityservices.persistence.repository;
 
-import com.we.communityservices.persistance.model.ParentType;
+import com.we.communityservices.persistence.model.SubType;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-public interface ParentTypeRepository extends MongoRepository<ParentType, String>{
+public interface SubTypeRepository extends MongoRepository<SubType, String>{
+    
     
 }

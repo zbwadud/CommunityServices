@@ -6,9 +6,9 @@
         <artifactId>communitycervices-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>persistance-layer</artifactId>
+    <artifactId>persistence-layer</artifactId>
     <packaging>jar</packaging>
-     <name>Community Services - Persistance</name>
+     <name>Community Services - Persistence</name>
      <dependencies>
        <!-- Database Start -->
         <dependency>            

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.we.communityservices.persistance.service;
+package com.we.communityservices.persistence.service;
 
-import com.we.communityservices.persistance.model.SubType;
-import com.we.communityservices.persistance.repository.SubTypeRepository;
+import com.we.communityservices.persistence.model.SubType;
+import com.we.communityservices.persistence.repository.SubTypeRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

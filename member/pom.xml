@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>persistance-layer</artifactId>
+            <artifactId>persistence-layer</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

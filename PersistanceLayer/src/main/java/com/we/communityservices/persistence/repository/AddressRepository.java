@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.we.communityservices.persistance.repository;
+package com.we.communityservices.persistence.repository;
 
-import com.we.communityservices.persistance.model.Status;
+import com.we.communityservices.persistence.model.Address;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
  * @author Zaid Wadud @ NZQA 2015
  */
-public interface StatusRepository extends MongoRepository<Status, String>{
+public interface AddressRepository extends MongoRepository<Address, String>{
     
 }
