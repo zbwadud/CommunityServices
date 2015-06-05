@@ -9,14 +9,7 @@
     <artifactId>member-module</artifactId>
     <packaging>jar</packaging>
      <name>Community Services - Member</name>
-    <url>http://maven.apache.org</url>     
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>persistence-layer</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <url>http://maven.apache.org</url>
        <!-- <dependencies>
         Database 
         <dependency>            
@@ -52,5 +45,12 @@
                 </executions>
             </plugin>
         </plugins>  
-    </build>-->    
+    </build>-->
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>persistence-layer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

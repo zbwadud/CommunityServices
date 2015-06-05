@@ -6,7 +6,7 @@
 package com.we.communityservices.persistence.model;
 
 import java.util.Collection;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class SubType {
     //private static final long serialVersionUID = 1L;
     @Id    
-    @Field(value = "SubTypeId")
+    //@Field(value = "SubTypeId")
     private String subTypeId;
     //@Basic(optional = false)
     @Field(value = "SubName")
@@ -31,15 +31,15 @@ public class SubType {
     @DBRef
     private Collection<Notification> notificationCollection;
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "subTypeSubTypeId")
-    @DBRef
-    private Collection<Address> addressCollection;
+            //@DBRef
+            //private Collection<Address> addressCollection;
     //@JoinColumn(name = "ParentType", referencedColumnName = "ParentTypeId")
     //@ManyToOne(optional = false)
     @DBRef
     private ParentType parentType;    
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "subTypeId")
-    @DBRef
-    private Collection<Status> statusCollection;
+            //@DBRef
+            //private Collection<Status> statusCollection;
 
     public SubType() {
     }
@@ -78,14 +78,14 @@ public class SubType {
         this.notificationCollection = notificationCollection;
     }
 
-    //@XmlTransient
+    /*//@XmlTransient
     public Collection<Address> getAddressCollection() {
-        return addressCollection;
+    return addressCollection;
     }
-
+    
     public void setAddressCollection(Collection<Address> addressCollection) {
-        this.addressCollection = addressCollection;
-    }
+    this.addressCollection = addressCollection;
+    }*/
 
     public ParentType getParentType() {
         return parentType;
@@ -96,13 +96,13 @@ public class SubType {
     }
 
     //@XmlTransient
-    public Collection<Status> getStatusCollection() {
-        return statusCollection;
+    /*public Collection<Status> getStatusCollection() {
+    return statusCollection;
     }
-
+    
     public void setStatusCollection(Collection<Status> statusCollection) {
-        this.statusCollection = statusCollection;
-    }
+    this.statusCollection = statusCollection;
+    }*/
 
     @Override
     public int hashCode() {

@@ -5,8 +5,6 @@
  */
 package com.we.communityservices.member.service;
 
-import com.we.communityservices.member.model.Type;
-import com.we.communityservices.member.repository.TypeRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,19 +16,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class TypeService {
     
-    @Autowired
+    /*@Autowired
     private TypeRepository types;
     
     public List<Type> findAll(){
-        return types.findAll();
+    return types.findAll();
     }
     
     public void saveType(Type type){
-        types.save(type);
+    types.save(type);
     }
     
     public void deleteAll(){
-        types.deleteAll();
-    }
+    types.deleteAll();
+    }*/
     
 }

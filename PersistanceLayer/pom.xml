@@ -11,10 +11,12 @@
      <name>Community Services - Persistence</name>
      <dependencies>
        <!-- Database Start -->
-        <dependency>            
+        <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>        
-        </dependency> 
-        <!-- Database End -->       
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.7.0.RELEASE</version>
+        </dependency>
+        <!-- Database End -->
+           
     </dependencies>
 </project>

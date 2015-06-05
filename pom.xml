@@ -15,6 +15,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.java.version>1.8</project.java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>          
     </properties>
@@ -40,8 +41,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <type>jar</type>
+            <type>jar</type>            
         </dependency>
+        
+       
+        <!--
+        <dependency> 
+            <groupId>org.springframework.boot</groupId> 
+            <artifactId>spring-boot-starter-web</artifactId> 
+        </dependency>
+        -->
         <!-- Apache Commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -76,6 +85,36 @@
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.extended</artifactId>
             <version>3.2.0.GA</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>antlr</groupId>
+                    <artifactId>antlr</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate.common</groupId>
+                    <artifactId>hibernate-commons-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jadira.usertype</groupId>
+                    <artifactId>usertype.core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jadira.usertype</groupId>
+                    <artifactId>usertype.spi</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Spring Data JPA 
         <dependency>

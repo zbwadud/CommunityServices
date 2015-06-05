@@ -22,7 +22,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class ParentType {
     //private static final long serialVersionUID = 1L;
     @Id    
-    @Field(value = "ParentTypeId")
     private String parentTypeId;
     //@Basic(optional = false)
     @Field(value = "ParentName")

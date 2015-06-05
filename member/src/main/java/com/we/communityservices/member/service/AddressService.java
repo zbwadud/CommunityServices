@@ -5,9 +5,9 @@
  */
 package com.we.communityservices.member.service;
 
-import com.we.communityservices.member.model.Address;
-import com.we.communityservices.member.model.Members;
-import com.we.communityservices.member.repository.AddressRepository;
+import com.we.communityservices.persistence.model.Address;
+import com.we.communityservices.persistence.model.Members;
+import com.we.communityservices.persistence.repository.AddressRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressService {
     
-    @Autowired
+    /*@Autowired
     private AddressRepository addresses;
     
     public List<Address> findByMember(Members memberId){
-        return addresses.findByMember(memberId);
+    return addresses.findByMember(memberId);
     }
     
     public void saveAddress(Address address){
-        addresses.save(address);
-    }
+    addresses.save(address);
+    }*/
 }

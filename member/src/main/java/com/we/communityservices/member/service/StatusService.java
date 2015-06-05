@@ -5,8 +5,6 @@
  */
 package com.we.communityservices.member.service;
 
-import com.we.communityservices.member.model.Status;
-import com.we.communityservices.member.repository.StatusRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,23 +16,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatusService {
     
-    @Autowired
+    /*@Autowired
     private StatusRepository statuses;
     
     public List <Status> findAll(){
-        return statuses.findAll();
+    return statuses.findAll();
     }
     
     public void saveStatus(Status status){
-        statuses.save(status);
+    statuses.save(status);
     }
     
     public Status findByName(String name){
-        return statuses.findByName(name);
+    return statuses.findByName(name);
     }
     
     public void deleteAll(){
-        statuses.deleteAll();
-    }
+    statuses.deleteAll();
+    }*/
     
 }

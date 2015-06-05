@@ -3,33 +3,46 @@
  */
 package com.we.communityservices.member;
 
+
 import com.we.communityservices.persistence.model.ParentType;
 import com.we.communityservices.persistence.service.ParentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoDataAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+
 
 /**
  *
  * @author Zaid Wadud
  */
 @SpringBootApplication
+//@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+@EnableMongoRepositories("com.we.communityservices.persistence.repository")
+@ComponentScan(basePackages = "com.we.communityservices.persistence")
+//@ComponentScan(basePackages = {"com.we.communityservices.persistence"})
 //@ComponentScan("com.we.communityservices.persistence.service")
 public class MemberApp implements CommandLineRunner{
-    
-    /*@Autowired
+    /*
+    @Autowired 
     private TestRepository repository;
     @Autowired
     private MemberService memberService;
     @Autowired
-    private AddressService addressService;
-    @Autowired
-    private TypeService typeService;
-    @Autowired
-    private StatusService statusService;*/
-    
+    private AddressService addressService; */
+    /*@Autowired
+    private TypeService typeService;*/
+    /*@Autowired
+    private StatusService statusService;
+    */
     @Autowired
     private ParentTypeService parentTypeService;
     
@@ -58,20 +71,24 @@ public class MemberApp implements CommandLineRunner{
                 System.out.println("Types found with findAll():");
                 for (Type typeList : typeService.findAll()) {
 		System.out.println(typeList);
-		}
-                Type model End */
+		}*/
+                /*Type model End */
                 
                 /* ParentType model Start */
         
-                //parentTypeService.deleteAll();
-                parentTypeService.saveParentType(new ParentType("MemberType",true));
-                parentTypeService.saveParentType(new ParentType("AddressType",true));
-                parentTypeService.saveParentType(new ParentType("StatusType",true));
-                parentTypeService.saveParentType(new ParentType("NotificationType",true));
-                
+                if(parentTypeService.findAll().isEmpty()){
+                    System.out.println("Inserting data....");
+                    parentTypeService.saveParentType(new ParentType("MemberType",true));
+                    parentTypeService.saveParentType(new ParentType("AddressType",true));
+                    parentTypeService.saveParentType(new ParentType("StatusType",true));
+                    parentTypeService.saveParentType(new ParentType("NotificationType",true));
+                    System.out.println("Data Inserted!");
+                }else{
+                    System.out.println("ParentType data found! Going to retriving...");
+                }
                 System.out.println("ParentType found with findAll():");
                 for (ParentType typeList : parentTypeService.findAll()) {
-		System.out.println(typeList);
+		System.out.println(typeList.getParentTypeId());
 		}
                 /* Status model End */
                 
