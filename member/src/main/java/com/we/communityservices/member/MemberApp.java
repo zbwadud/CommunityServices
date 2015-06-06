@@ -84,7 +84,7 @@ public class MemberApp implements CommandLineRunner{
                     parentTypeService.saveParentType(new ParentType("NotificationType",true));
                     System.out.println("Data Inserted!");
                 }else{
-                    System.out.println("ParentType data found! Going to retriving...");
+                    System.out.println("ParentType data found! Going to retriving......");
                 }
                 System.out.println("ParentType found with findAll():");
                 for (ParentType typeList : parentTypeService.findAll()) {
