@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.we.communityservices</groupId>
-        <artifactId>communitycervices-parent</artifactId>
+        <artifactId>communityservices-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>member-module</artifactId>

@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.we.communityservices</groupId>
-        <artifactId>communitycervices-parent</artifactId>
+        <artifactId>communitycservices-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>persistence-layer</artifactId>
+    <artifactId>persistence</artifactId>
     <packaging>jar</packaging>
      <name>Community Services - Persistence</name>
      <dependencies>
