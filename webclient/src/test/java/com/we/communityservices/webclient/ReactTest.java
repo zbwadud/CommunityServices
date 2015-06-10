@@ -15,19 +15,19 @@ import static org.junit.Assert.assertThat;
 
 public class ReactTest {
 
-    @Test
+    /*@Test
     public void testRenderCommentBox() throws Exception {
-        List<Comment> comments = new ArrayList<>();
-        comments.add(new Comment("Peter Parker", "This is a comment."));
-        comments.add(new Comment("John Doe", "This is *another* comment."));
-
-        React react = new React();
-        String html = react.renderCommentBox(comments);
-
-        assertThat(html, startsWith("<div"));
-
-        Document doc = Jsoup.parse(html);
-        assertThat(doc.select("div.comment").size(), is(2));
-    }
+    List<Comment> comments = new ArrayList<>();
+    comments.add(new Comment("Peter Parker", "This is a comment."));
+    comments.add(new Comment("John Doe", "This is *another* comment."));
+    
+    React react = new React();
+    String html = react.renderCommentBox(comments);
+    
+    assertThat(html, startsWith("<div"));
+    
+    Document doc = Jsoup.parse(html);
+    assertThat(doc.select("div.comment").size(), is(2));
+    }*/
 
 }

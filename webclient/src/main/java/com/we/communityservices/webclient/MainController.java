@@ -36,5 +36,33 @@ public class MainController {
         model.put("data", data);
         return "index";
     }
+    @RequestMapping("/todo")
+    public String toDo(Map<String, Object> model) throws Exception {
+        //List<Comment> comments = service.getComments();
+        String toDo = react.renderToDo();
+        //String data = mapper.writeValueAsString(comments);
+        model.put("content", toDo);
+        //model.put("data", data);
+        return "todo";
+    }
+    
+    @RequestMapping("/react")
+    public String toDoStatic(Map<String, Object> model) throws Exception {
+        //List<Comment> comments = service.getComments();
+        //String toDo = react.renderToDo();
+        //String data = mapper.writeValueAsString(comments);
+        model.put("content", "Content here...");
+        //model.put("data", data);
+        return "todo_static";
+    }
+    @RequestMapping("/html")
+    public String html(Map<String, Object> model) throws Exception {
+        //List<Comment> comments = service.getComments();
+        //String toDo = react.renderToDo();
+        //String data = mapper.writeValueAsString(comments);
+        //model.put("content", toDo);
+        //model.put("data", data);
+        return "test";
+    }
 
 }

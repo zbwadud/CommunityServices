@@ -8,18 +8,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class React {
-
+    private static Logger LOG = LoggerFactory.getLogger(React.class);
     private NashornScriptEngine nashorn;
 
     public React() {
         try {
+            LOG.info("Loading nashorn...");
             nashorn = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
             nashorn.eval(read("static/nashorn-polyfill.js"));
             nashorn.eval(read("static/vendor/react.js"));
             nashorn.eval(read("static/vendor/showdown.min.js"));
             nashorn.eval(read("static/commentBox.js"));
+            nashorn.eval(read("static/toDo.js"));
+            //nashorn.eval(read("static/bundle.min.js"));
+            
         }
         catch (ScriptException e) {
             throw new IllegalStateException("could not init nashorn", e);
@@ -35,7 +41,16 @@ public class React {
             throw new IllegalStateException("failed to render react component", e);
         }
     }
-
+    
+    public String renderToDo() {
+        try {
+            Object html = nashorn.invokeFunction("renderServerTD");
+            return String.valueOf(html);
+        } catch (Exception e) {
+            throw new IllegalStateException("failed to render react component", e);
+        }
+    }
+    
     private Reader read(String path) {
         InputStream in = getClass().getClassLoader().getResourceAsStream(path);
         return new InputStreamReader(in);
