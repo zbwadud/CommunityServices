@@ -3,8 +3,9 @@
 <head>
     <title>Hello React</title>
     <script type="text/javascript" src="vendor/react.js"></script>
+        <script type="text/javascript" src="vendor/JSXTransformer.js"></script>
     <script type="text/javascript" src="vendor/showdown.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    
     
 </head>
 <body>
@@ -15,6 +16,7 @@
         renderClientTD();
     });
 </script>
-
+<div id="title">${title}</div>
+<script type="text/javascript" src="app.js"></script>
 </body>
 </html>

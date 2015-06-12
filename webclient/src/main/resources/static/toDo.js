@@ -10,6 +10,7 @@ var TodoList = React.createClass({displayName: "TodoList",
     return React.createElement("ul", null, this.props.items.map(createItem));
   }
 });
+
 var TodoApp = React.createClass({displayName: "TodoApp",
   getInitialState: function() {
     return {items: [], text: ''};
@@ -26,7 +27,7 @@ var TodoApp = React.createClass({displayName: "TodoApp",
   render: function() {
     return (
       React.createElement("div", null, 
-        React.createElement("h3", null, "TODO"), 
+        React.createElement("h3", null, "TODO:-"), 
         React.createElement(TodoList, {items: this.state.items}), 
         React.createElement("form", {onSubmit: this.handleSubmit}, 
           React.createElement("input", {onChange: this.onChange, value: this.state.text}), 
@@ -42,14 +43,15 @@ var TodoApp = React.createClass({displayName: "TodoApp",
 var renderClientTD = function () {
     //var data = comments || [];
     React.render(
-        React.createElement(TodoApp, {data: 'datatata', url: "comments.json", pollInterval: 5000}),
+        React.createElement(TodoApp,null),
         document.getElementById("content")
     );
 };
 
 var renderServerTD = function () {
     //var data = Java.from(comments);
+    
     return React.renderToString(
-        React.createElement(TodoApp, {data: 'datatata', url: "comments.json", pollInterval: 5000})
+        React.createElement(TodoApp, null)
     );
 };

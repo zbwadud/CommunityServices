@@ -24,7 +24,7 @@ var TodoApp = React.createClass({
   render: function() {
     return (
       <div>
-        <h3>TODO</h3>
+        <h3>TODO:-</h3>
         <TodoList items={this.state.items} />
         <form onSubmit={this.handleSubmit}>
           <input onChange={this.onChange} value={this.state.text} />
@@ -35,17 +35,18 @@ var TodoApp = React.createClass({
   }
 });
 
-var renderClientTD = function () {
+var renderClient = function () {
     //var data = comments || [];
     React.render(
-        React.render(<TodoApp data={'datatata'} url='comments.json' pollInterval={5000} />,
-        document.getElementById("content")
-    );
+            <TodoApp />, 
+            document.getElementById('content')
+            );
 };
 
-var renderServerTD = function () {
+var renderServer = function () {
     //var data = Java.from(comments);
+    
     return React.renderToString(
-        <TodoApp data={'datata'} url='comments.json' pollInterval={5000}/>
+        <TodoApp />
     );
 };

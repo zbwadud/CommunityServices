@@ -21,9 +21,11 @@ public class React {
             nashorn = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
             nashorn.eval(read("static/nashorn-polyfill.js"));
             nashorn.eval(read("static/vendor/react.js"));
+            nashorn.eval(read("static/vendor/JSXTransformer.js"));
             nashorn.eval(read("static/vendor/showdown.min.js"));
             nashorn.eval(read("static/commentBox.js"));
             nashorn.eval(read("static/toDo.js"));
+            nashorn.eval(read("static/app.js"));
             //nashorn.eval(read("static/bundle.min.js"));
             
         }
@@ -41,13 +43,22 @@ public class React {
             throw new IllegalStateException("failed to render react component", e);
         }
     }
+    public String renderTitle(String arg1) {
+        try {
+            Object html = nashorn.invokeFunction("renderTitle",arg1);
+            return String.valueOf(html);
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("failed to render react component", e);
+        }
+    }
     
     public String renderToDo() {
         try {
             Object html = nashorn.invokeFunction("renderServerTD");
             return String.valueOf(html);
         } catch (Exception e) {
-            throw new IllegalStateException("failed to render react component", e);
+            throw new IllegalStateException("***failed to render react component***", e);
         }
     }
     

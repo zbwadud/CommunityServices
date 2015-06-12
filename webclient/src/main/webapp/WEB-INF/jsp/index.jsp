@@ -11,6 +11,7 @@
 <script type="text/javascript" src="commentBox.js"></script>
 <script type="text/javascript">
     $(function () {
+        //alert(${data});
         renderClient(${data});
     });
 </script>

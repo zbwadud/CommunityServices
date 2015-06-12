@@ -40,8 +40,11 @@ public class MainController {
     public String toDo(Map<String, Object> model) throws Exception {
         //List<Comment> comments = service.getComments();
         String toDo = react.renderToDo();
+        String titleView = react.renderTitle("Zaid Wadud");
         //String data = mapper.writeValueAsString(comments);
+        System.out.println("MainController:- "+titleView);
         model.put("content", toDo);
+        model.put("title", titleView);
         //model.put("data", data);
         return "todo";
     }
