@@ -40,18 +40,18 @@ var TodoApp = React.createClass({displayName: "TodoApp",
 
 //React.render(React.createElement(TodoApp, null), mountNode);
 
-var renderClientTD = function () {
-    //var data = comments || [];
+var renderClient = function (doList) {
+    var data = doList || [];
     React.render(
-        React.createElement(TodoApp,null),
+        React.createElement(TodoApp,{items:data}),
         document.getElementById("content")
     );
 };
 
-var renderServerTD = function () {
-    //var data = Java.from(comments);
+var renderServer = function (doList) {
+    var data = Java.from(doList);
     
     return React.renderToString(
-        React.createElement(TodoApp, null)
+        React.createElement(TodoApp, {items:data})
     );
 };

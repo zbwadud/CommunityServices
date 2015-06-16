@@ -7,7 +7,8 @@ var TitleView = React.createClass({displayName: "TitleView",
 });
 
 var renderTitle = function (javaProps) {
+    var data = javaProps.toString();
     return React.renderToString(
-        React.createElement(TitleView, {text: javaProps.title})
+        React.createElement(TitleView, {text: data})
     );
 };
