@@ -38,12 +38,16 @@ public class MainController {
     }
     @RequestMapping("/todo")
     public String toDo(Map<String, Object> model) throws Exception {
-        List<Comment> doList = service.getComments();
+        //List<Comment> doList = service.getComments();
+        int [] doList = {3};
         String toDo = react.renderToDo(doList);
+        String data = mapper.writeValueAsString(toDo);
         String titleView = react.renderTitle("Zaid Wadud");
         //String data = mapper.writeValueAsString(comments);
-        System.out.println("MainController:- titleView--> "+titleView);
-        model.put("content", toDo);
+        //System.out.println("MainController:- titleView--> "+titleView);
+        //System.out.println("MainController:- todDdata--> "+data);
+        //model.put("content", toDo);
+        //model.put("data", data);
         model.put("title", titleView);
         //model.put("data", data);
         return "todo";

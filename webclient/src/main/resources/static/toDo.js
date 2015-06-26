@@ -40,8 +40,9 @@ var TodoApp = React.createClass({displayName: "TodoApp",
 
 //React.render(React.createElement(TodoApp, null), mountNode);
 
-var renderClient = function (doList) {
-    var data = doList || [];
+var renderClient = function (data) {
+    
+    //var data = doList || [];
     React.render(
         React.createElement(TodoApp,{items:data}),
         document.getElementById("content")

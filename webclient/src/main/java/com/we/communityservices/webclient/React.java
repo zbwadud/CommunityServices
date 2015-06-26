@@ -45,9 +45,9 @@ public class React {
     }
     public String renderTitle(String arg1) {
         try {
-            System.out.println("React :--> Passing renderTitle"+arg1);
+            //System.out.println("React :--> Passing renderTitle"+arg1);
             Object html = nashorn.invokeFunction("renderTitle",arg1);
-            System.out.println("React :--> HTML OBJECT "+html.toString());
+            //System.out.println("React :--> HTML OBJECT "+html.toString());
             return String.valueOf(html);
         }
         catch (Exception e) {
@@ -55,7 +55,8 @@ public class React {
         }
     }
     
-    public String renderToDo(List<Comment> doList) {
+    public String renderToDo(int [] doList) {
+        System.out.println("In React--data from client--->"+doList[0]);
         try {
             Object html = nashorn.invokeFunction("renderServer",doList);
             return String.valueOf(html);
