@@ -71,5 +71,14 @@ public class MainController {
         //model.put("data", data);
         return "test";
     }
+    @RequestMapping("/contactform")
+    public String contactForm(Map<String, Object> model) throws Exception {
+        //List<Comment> comments = service.getComments();
+        //String toDo = react.renderToDo();
+        //String data = mapper.writeValueAsString(comments);
+        //model.put("content", toDo);
+        //model.put("data", data);
+        return "contactform";
+    }
 
 }

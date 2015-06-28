@@ -26,7 +26,7 @@ public class React {
             nashorn.eval(read("static/commentBox.js"));
             nashorn.eval(read("static/toDo.js"));
             nashorn.eval(read("static/app.js"));
-            //nashorn.eval(read("static/bundle.min.js"));
+            nashorn.eval(read("static/contactForm.js"));
             
         }
         catch (ScriptException e) {
