@@ -54,6 +54,7 @@ var CommentList = React.createClass({displayName: "CommentList",
 
 var CommentBox = React.createClass({displayName: "CommentBox",
     handleCommentSubmit: function (comment) {
+        alert("Data added:-"+comment.author.toString());
         var comments = this.state.data;
         comments.push(comment);
         this.setState({data: comments}, function () {
@@ -105,7 +106,7 @@ var renderClient = function (comments) {
     var data = comments || [];
     React.render(
         React.createElement(CommentBox, {data: data, url: "comments.json", pollInterval: 5000}),
-        document.getElementById("content")
+        document.getElementById("commentContent")
     );
 };
 

@@ -29,10 +29,11 @@ public class MainController {
 
     @RequestMapping("/")
     public String index(Map<String, Object> model) throws Exception {
+        System.out.println("CommentIndex::Model Value:-"+model.toString());
         List<Comment> comments = service.getComments();
         String commentBox = react.renderCommentBox(comments);
         String data = mapper.writeValueAsString(comments);
-        model.put("content", commentBox);
+        model.put("commentContent", commentBox);
         model.put("data", data);
         return "index";
     }

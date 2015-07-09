@@ -7,11 +7,10 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script><!--Required for client side rendering -->
 </head>
 <body>
-<div id="content">${content}</div>
+<div id="commentContent">${commentContent}</div>
 <script type="text/javascript" src="commentBox.js"></script>
 <script type="text/javascript">
     $(function () {
-        //alert(${data});
         renderClient(${data});
     });
 </script>

@@ -21,10 +21,10 @@ public class React {
             nashorn = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
             nashorn.eval(read("static/nashorn-polyfill.js"));
             nashorn.eval(read("static/vendor/react.js"));
-            nashorn.eval(read("static/vendor/JSXTransformer.js"));
+            //nashorn.eval(read("static/vendor/JSXTransformer.js"));
             nashorn.eval(read("static/vendor/showdown.min.js"));
             nashorn.eval(read("static/commentBox.js"));
-            nashorn.eval(read("static/toDo.js"));
+            //nashorn.eval(read("static/toDo.js"));
             nashorn.eval(read("static/app.js"));
             nashorn.eval(read("static/contactForm.js"));
             
@@ -36,7 +36,9 @@ public class React {
 
     public String renderCommentBox(List<Comment> comments) {
         try {
+            System.out.println("renderCommentBox::Server::Default Comment List Size:-"+comments.size());
             Object html = nashorn.invokeFunction("renderServer", comments);
+            System.out.println("renderCommentBox::Server Calling "+html.toString());
             return String.valueOf(html);
         }
         catch (Exception e) {
