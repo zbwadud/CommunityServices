@@ -54,7 +54,8 @@ var CommentList = React.createClass({displayName: "CommentList",
 
 var CommentBox = React.createClass({displayName: "CommentBox",
     handleCommentSubmit: function (comment) {
-        alert("Data added:-"+comment.author.toString());
+        //alert("Data added:-"+comment.author.toString());
+        //document.write ("This is a JavaScript statement.");
         var comments = this.state.data;
         comments.push(comment);
         this.setState({data: comments}, function () {

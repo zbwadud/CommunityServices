@@ -4,25 +4,26 @@
     Author     : Zaid Wadud
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
-  <head>
-    <title>React Contact Form Example</title>
-    <script type="text/javascript" src="vendor/react.js"></script>
-    <script type="text/javascript" src="vendor/JSXTransformer.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script><!--Required for client side rendering -->
-
-  </head>
-  <body>    
-      <div id="content"></div>
-    <script type="text/javascript" src="contactForm.js"></script>
-    <script type="text/javascript">
-    $(function () {
-        renderClient();
-    });
-</script>
-  </body>
+<body>
+    <h1>Form</h1>
+    <%--<a href="<spring:url value="/user_list.html" />"><spring:message code="user.list" /></a>--%>
+    <form:form method="POST" action="/contactform" modelAttribute="comment">
+        <form:errors path="" element="div" />
+        <div>
+            <p>"Author:"</p> <form:input  path="author" />
+        </div>
+        <div>            
+            <p>"Message:"</p> <form:textarea path="text" />          
+        </div>        
+        <div>
+            <input type="submit" />
+        </div>
+    </form:form>
+</body>
 </html>
 
 

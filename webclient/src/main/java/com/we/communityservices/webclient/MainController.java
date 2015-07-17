@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author Benjamin Winterberg
@@ -26,17 +29,55 @@ public class MainController {
         this.react = new React();
         this.mapper = new ObjectMapper();
     }
-
-    @RequestMapping("/")
-    public String index(Map<String, Object> model) throws Exception {
-        System.out.println("CommentIndex::Model Value:-"+model.toString());
+    //JSP form submission Start
+    @RequestMapping(value = "/contactform", method = RequestMethod.GET)
+    public String index(Model model) throws Exception {//Map<String, Object> model
+        model.addAttribute("comment", new Comment());
+        System.out.println("GET:-"+model.toString());
+        
+        return "contactform";
+    }
+    @RequestMapping(value = "/contactform", method = RequestMethod.POST)
+    public String indexForm(@ModelAttribute Comment comment, Model model) throws Exception {//Map<String, Object> model
+        model.addAttribute("comment", comment);
+        System.out.println("POST:-Comment Auther "+comment.getAuthor()+"Comment Text"+comment.getText());
+        
+        return "result";
+    }
+    //JSP form submission END
+    
+    
+    //React form submission Start
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String reactForm(Model model) throws Exception {//Map<String, Object> model
+        model.addAttribute("comment", new Comment());
+        System.out.println("GET:-"+model.toString());
         List<Comment> comments = service.getComments();
         String commentBox = react.renderCommentBox(comments);
         String data = mapper.writeValueAsString(comments);
-        model.put("commentContent", commentBox);
-        model.put("data", data);
+        model.addAttribute("commentContent", commentBox);
+        model.addAttribute("data", data);
         return "index";
     }
+    
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String reactForm(@ModelAttribute Comment comment, Model model) throws Exception {//Map<String, Object> model
+        System.out.println("POST:-"+model.toString()+"Comment"+comment.getAuthor());
+        //Comment comment = new Comment();
+        //comment.setAuthor("Wadud");
+        //comment.setText("Probhu is here...");
+        //service.addComment(comment);
+        List<Comment> comments = service.getComments();
+        String commentBox = react.renderCommentBox(comments);
+        String data = mapper.writeValueAsString(comments);
+        model.addAttribute("commentContent", commentBox);
+        model.addAttribute("data", data);
+        //model.put("commentContent", commentBox);
+        //model.put("data", data);
+        return "index";
+    }
+    //React form submission END
+    
     @RequestMapping("/todo")
     public String toDo(Map<String, Object> model) throws Exception {
         //List<Comment> doList = service.getComments();

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import javax.script.Invocable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +38,8 @@ public class React {
     public String renderCommentBox(List<Comment> comments) {
         try {
             System.out.println("renderCommentBox::Server::Default Comment List Size:-"+comments.size());
-            Object html = nashorn.invokeFunction("renderServer", comments);
+            Invocable invocable = (Invocable) nashorn;
+            Object html = invocable.invokeFunction("renderServer", comments);
             System.out.println("renderCommentBox::Server Calling "+html.toString());
             return String.valueOf(html);
         }
