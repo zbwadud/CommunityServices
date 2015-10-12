@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Benjamin Winterberg
- */
+
 @RestController
 @RequestMapping("/comments.json")
 public class CommentController {

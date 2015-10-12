@@ -12,6 +12,7 @@
         <module>notification</module>
         <module>persistence</module>
         <module>webclient</module>
+    <module>WebCS</module>
     </modules>
     
     <properties>

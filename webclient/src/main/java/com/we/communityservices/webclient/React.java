@@ -26,8 +26,8 @@ public class React {
             nashorn.eval(read("static/vendor/showdown.min.js"));
             nashorn.eval(read("static/commentBox.js"));
             //nashorn.eval(read("static/toDo.js"));
-            nashorn.eval(read("static/app.js"));
-            nashorn.eval(read("static/contactForm.js"));
+            //nashorn.eval(read("static/app.js"));
+            //nashorn.eval(read("static/contactForm.js"));
             
         }
         catch (ScriptException e) {
@@ -37,7 +37,7 @@ public class React {
 
     public String renderCommentBox(List<Comment> comments) {
         try {
-            System.out.println("renderCommentBox::Server::Default Comment List Size:-"+comments.size());
+            
             Invocable invocable = (Invocable) nashorn;
             Object html = invocable.invokeFunction("renderServer", comments);
             System.out.println("renderCommentBox::Server Calling "+html.toString());
@@ -60,7 +60,7 @@ public class React {
     }
     
     public String renderToDo(int [] doList) {
-        System.out.println("In React--data from client--->"+doList[0]);
+        
         try {
             Object html = nashorn.invokeFunction("renderServer",doList);
             return String.valueOf(html);
